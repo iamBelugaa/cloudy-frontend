@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '../components/shared/Card';
 import NavBar from '../components/shared/NavBar';
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import Account from '../assets/icons/account.svg';
 import { Link } from 'react-router-dom';
 import { SmallText } from '../components/styles/TextStyles';
 import { COLORS } from '../components/styles/ColorStyles';
+import { authenticate } from '../useFetch';
 
 const data = {
   title: 'Sign Up',
@@ -16,10 +17,36 @@ const data = {
 };
 
 const SignUpPage = () => {
+  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await authenticate(
+        { displayName, email, password },
+        'register'
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const state = {
+    displayName,
+    setDisplayName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+  };
+
   return (
     <Wrapper>
       <NavBar />
-      <Card {...data}>
+      <Card {...data} state={state} onSubmit={handleSubmit}>
         <CaptionText>Already have an account?</CaptionText>
         <Link to={'/login'}>
           <span style={{ color: `${COLORS.secondary1}` }}>Sign in</span>

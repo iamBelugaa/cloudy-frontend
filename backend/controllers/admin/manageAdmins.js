@@ -6,7 +6,6 @@ const {
 const { checkEmailAdmin } = require('../../helpers/findUserDetails');
 const hashPassword = require('../../helpers/hashPassword');
 const Admin = require('../../models/admin');
-const Session = require('../../models/session');
 
 async function getAllAdmins(user, req, res, next) {
   try {
@@ -53,9 +52,7 @@ async function deleteAdminAccount(user, req, res, next) {
           httpErrors.BadRequest("You cann't delete Super Admin's account.")
         );
 
-      await Session.deleteMany({ userId: adminToDelete._id });
       await adminToDelete.remove();
-
       return res.status(200).json({
         ok: true,
         message: `Account deleted.`,

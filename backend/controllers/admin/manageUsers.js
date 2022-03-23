@@ -4,7 +4,6 @@ const {
 } = require('../../services/userInputValidation');
 const User = require('../../models/user');
 const File = require('../../models/file');
-const Session = require('../../models/session');
 const fs = require('fs');
 const path = require('path');
 
@@ -65,7 +64,6 @@ async function deleteUserAccount(user, req, res, next) {
         }
       });
 
-      await Session.deleteMany({ userId: userToDelete._id });
       await userToDelete.remove();
       return res.status(200).json({
         ok: true,

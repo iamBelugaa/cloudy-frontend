@@ -3,11 +3,13 @@ const httpErrors = require('http-errors');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const app = express();
 app.disable('x-powered-by');
 
 // --------------- Middlewares --------------- //
+app.use(cors());
 app.use(helmet());
 app.use(compression({ level: 6 }));
 app.use(express.json());

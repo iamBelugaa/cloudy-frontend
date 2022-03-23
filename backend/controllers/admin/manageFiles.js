@@ -37,7 +37,7 @@ async function getVideos(user, req, res, next) {
       .lean()
       .exec();
 
-    return res.status(200).json({ ok: true, files });
+    return res.status(200).json({ ok: true, data: files });
   } catch (error) {
     return next(httpErrors.InternalServerError('Something went wrong.'));
   }

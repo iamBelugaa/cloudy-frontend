@@ -1,17 +1,10 @@
 const httpErrors = require('http-errors');
-const {
-  clearUserAccessAndRefreshTokens,
-} = require('../../helpers/clearCookies');
-const Session = require('../../models/session');
 const File = require('../../models/file');
 const fs = require('fs');
 const path = require('path');
 
 async function deleteUserAccount(user, req, res, next) {
   try {
-    await Session.deleteMany({ userId: user._id });
-    await clearUserAccessAndRefreshTokens(res);
-
     const filesToDelete = await File.find({
       'uploaderInfo.id': user._id,
     })

@@ -8,7 +8,7 @@ async function registerUser(req, res, next) {
   try {
     const userDetails = {
       email: req.body.email,
-      displayName: req.body.username,
+      displayName: req.body.displayName,
       password: req.body.password,
     };
 
@@ -44,7 +44,7 @@ async function registerUser(req, res, next) {
       await user.save();
       return res.status(200).json({
         ok: true,
-        message: 'Registered Successfully. Redirecting To Login Page.',
+        message: 'Account Registered.',
       });
     }
   } catch (error) {

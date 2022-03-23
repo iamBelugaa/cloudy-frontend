@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '../components/shared/Card';
 import NavBar from '../components/shared/NavBar';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { SmallText } from '../components/styles/TextStyles';
 import { COLORS } from '../components/styles/ColorStyles';
+import { authenticate } from '../useFetch';
 
 const data = {
   title: 'Sign In',
@@ -14,10 +15,30 @@ const data = {
 };
 
 const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await authenticate({ email, password }, 'login');
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const state = {
+    email,
+    setEmail,
+    password,
+    setPassword,
+  };
+
   return (
     <Wrapper>
       <NavBar />
-      <Card {...data}>
+      <Card {...data} onSubmit={handleSubmit} state={state}>
         <div>
           <CaptionText>Don't have an account?</CaptionText>
           <Link to={'/register'}>

@@ -39,7 +39,6 @@ async function sendEmailToClient(user, req, res, next) {
           emailFrom: user.email,
           downloadLink: `${process.env.ROOT_DOMAIN}/api/file/${file.uuid}`,
           size: formatBytes(file.fileSize),
-          expires: '5 Hours',
         }),
       });
 
@@ -48,7 +47,7 @@ async function sendEmailToClient(user, req, res, next) {
 
       return res.status(200).json({
         ok: true,
-        data: `Email Sent To ${emailTo}.`,
+        message: `Email Sent To ${emailTo}.`,
       });
     }
   } catch (error) {

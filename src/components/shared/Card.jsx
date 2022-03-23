@@ -3,12 +3,18 @@ import styled from 'styled-components';
 import Computerwork from '../../assets/illustrations/computer-work.svg';
 import { COLORS } from '../styles/ColorStyles';
 import { Caption, H2 } from '../styles/TextStyles';
-import Lock from '../../assets/icons/lock.svg';
-import Mail from '../../assets/icons/mail.svg';
-import CtaButton from '../buttons/CtaButton';
 import { MediaQueries } from '../../constants';
+import Form from '../shared/Form';
 
-const Card = ({ title, description, icon, placeholder, children }) => {
+const Card = ({
+  title,
+  description,
+  icon,
+  placeholder,
+  state,
+  onSubmit,
+  children,
+}) => {
   return (
     <Wrapper>
       <ContentWrapper>
@@ -20,23 +26,13 @@ const Card = ({ title, description, icon, placeholder, children }) => {
             <Title>{title}</Title>
             <Description>{description}</Description>
           </TextWrapper>
-          <Form>
-            {icon && placeholder && (
-              <InputWrapper>
-                <Icon src={icon.img} alt={icon.alt} />
-                <input type="text" placeholder={placeholder} />
-              </InputWrapper>
-            )}
-            <InputWrapper>
-              <Icon src={Mail} alt="Mail icon" />
-              <input type="email" placeholder="Email address" />
-            </InputWrapper>
-            <InputWrapper>
-              <Icon src={Lock} alt="Lock icon" />
-              <input type="password" placeholder="*********" />
-            </InputWrapper>
-            <CtaButton type="submit" title={title} />
-          </Form>
+          <Form
+            icon={icon}
+            placeholder={placeholder}
+            title={title}
+            state={state}
+            onSubmit={onSubmit}
+          />
           <LinksWrapper>{children}</LinksWrapper>
         </FormWrapper>
       </ContentWrapper>
@@ -171,62 +167,6 @@ const Description = styled(Caption)`
   @media (max-width: 650px) {
     font-size: 13px;
   }
-`;
-
-const Form = styled.form`
-  display: grid;
-  align-content: center;
-  gap: 20px;
-`;
-
-const InputWrapper = styled.div`
-  position: relative;
-  height: 44px;
-
-  input {
-    margin: 0;
-    font-family: inherit;
-    width: 255px;
-    height: 100%;
-    border: none;
-    outline: none;
-    padding-left: 60px;
-    color: ${COLORS.text3};
-    background: linear-gradient(
-      180deg,
-      rgba(99, 106, 150, 0.4) 0%,
-      rgba(182, 186, 214, 0.25) 100%
-    );
-    border: 0.5px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(40px);
-    border-radius: 30px;
-
-    :focus {
-      box-shadow: rgb(47 184 255 / 30%) 0px 10px 40px,
-        rgb(47 184 255) 0px 0px 0px 1px inset;
-    }
-
-    ::placeholder {
-      color: ${COLORS.text4};
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    @media (max-width: 520px) {
-      width: 220px;
-    }
-  }
-`;
-
-const Icon = styled.img`
-  align-self: center;
-  position: absolute;
-  left: 10px;
-  top: 7px;
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 5px;
-  border-radius: 50%;
 `;
 
 const LinksWrapper = styled.div`

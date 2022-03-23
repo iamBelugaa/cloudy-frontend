@@ -1,7 +1,7 @@
 const httpErrors = require('http-errors');
-const { allowLogAdminIn } = require('../../helpers/logUserIn');
 const { checkEmailAdmin } = require('../../helpers/findUserDetails');
 const { loginValidation } = require('../../helpers/checkUserInput');
+const generateAccessAndRefreshTokens = require('../../services/generateTokens');
 
 async function loginUser(req, res, next) {
   try {
@@ -22,11 +22,15 @@ async function loginUser(req, res, next) {
       }
 
       if (admin.role === 'Admin') {
-        await allowLogAdminIn(admin._id, req, res);
+        const token = await generateAccessAndRefreshTokens({
+          id: admin._id,
+          email: admin.email,
+        });
         await admin.updateLoginsCount();
+
         return res.status(200).json({
           ok: true,
-          message: 'Logged In. Redirecting To Admin Dashboard.',
+          token,
         });
       } else
         return res.status(403).json({

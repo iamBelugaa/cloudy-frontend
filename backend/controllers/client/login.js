@@ -1,5 +1,5 @@
 const httpErrors = require('http-errors');
-const { allowLogUserIn } = require('../../helpers/logUserIn');
+const generateTokens = require('../../services/generateTokens');
 const { checkEmail } = require('../../helpers/findUserDetails');
 const { loginValidation } = require('../../helpers/checkUserInput');
 
@@ -23,10 +23,13 @@ async function loginUser(req, res, next) {
 
       if (user.role === 'User') {
         await user.updateLoginsCount();
-        await allowLogUserIn(user._id, req, res);
+
         return res.status(200).json({
           ok: true,
-          message: 'Logged In. Redirecting To Your Dashboard.',
+          token: await generateTokens({
+            id: user._id,
+            email: user.email,
+          }),
         });
       } else
         return res.status(403).json({

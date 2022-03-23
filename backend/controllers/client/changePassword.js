@@ -2,9 +2,8 @@ const httpErrors = require('http-errors');
 const {
   PasswordVerificationSchema,
 } = require('../../services/userInputValidation');
-const { allowLogUserIn } = require('../../helpers/logUserIn');
+const generateTokens = require('../../services/generateTokens');
 const hashPassword = require('../../helpers/hashPassword');
-const Session = require('../../models/session');
 
 async function changePassword(user, req, res, next) {
   try {
@@ -23,19 +22,15 @@ async function changePassword(user, req, res, next) {
 
     if (validNewPassword) {
       const isValidPassword = await user.checkPassword(currentPassword);
-      if (!isValidPassword) {
+
+      if (!isValidPassword)
         return next(httpErrors.BadRequest('Invalid password.'));
-      }
 
       user.password = await hashPassword(validNewPassword.newPassword);
       await user.save();
-
-      await Session.deleteMany({ userId: user._id });
-      await allowLogUserIn(user._id, req, res);
-
       return res.status(200).json({
         ok: true,
-        message: 'Password Changed.',
+        token: await generateTokens({ id: user._id, email: user.email }),
       });
     }
   } catch (error) {
