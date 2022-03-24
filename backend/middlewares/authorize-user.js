@@ -1,6 +1,5 @@
 const JWT = require('jsonwebtoken');
 const User = require('../models/user');
-const httpErrors = require('http-errors');
 
 const unautorizeMessage = {
   status: 'error',
@@ -9,35 +8,46 @@ const unautorizeMessage = {
 };
 
 async function authorizeAdmin(req, res, next) {
-  const token = req.headers['x-authorizaton'].split(' ')[1];
+  if (!req.headers['x-authorization'])
+    return res.status(401).json(unautorizeMessage);
+
+  const token = req.headers['x-authorization'].split(' ')[1];
+  if (!token) return res.status(401).json(unautorizeMessage);
 
   try {
     let decodedUser;
 
-    if (token) {
-      JWT.verify(token, process.env.JWT_SIGNATURE, (err, data) => {
-        if (err) {
-          const error =
-            err.name === 'TokenExpiredError'
-              ? 'Session Expired. Please Login Again.'
-              : 'Unauthorized.';
+    JWT.verify(token, process.env.JWT_SIGNATURE, (err, data) => {
+      if (err) {
+        const error =
+          err.name === 'TokenExpiredError'
+            ? 'Session Expired. Please Login Again.'
+            : 'Unauthorized.';
 
-          return next(httpErrors.BadRequest(error));
-        }
-        decodedUser = data.user;
+        return res
+          .status(400)
+          .json({ status: 'error', error, statusCode: 400 });
+      } else decodedUser = data.user;
+    });
+
+    if (!decodedUser) return res.status(400).json(unautorizeMessage);
+    const user = await User.findOne({ email: decodedUser.email });
+
+    if (!user)
+      return res.status(400).json({
+        status: 'error',
+        error: "User doesn't exist.",
+        statusCode: 400,
       });
 
-      const user = await User.findOne({ email: decodedUser.email });
-      if (!user) return next(httpErrors.Unauthorized('Unauthorized.'));
+    if (user.role !== 'User')
+      return res.status(403).json({
+        status: 'error',
+        error: "You don't have permission to access this route.",
+        statusCode: 403,
+      });
 
-      if (user.role !== 'User')
-        return next(
-          httpErrors.Forbidden(
-            "You don't have permission to access this route."
-          )
-        );
-      return next(user);
-    } else return res.status(401).json(unautorizeMessage);
+    next(user);
   } catch (error) {
     return next(error);
   }

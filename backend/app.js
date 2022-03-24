@@ -39,7 +39,6 @@ app.use((error, req, res, next) => {
       statusCode: 404,
     });
   else {
-    console.log(error);
     if (error.isJoi) error.status = 422;
 
     return res.status(error.status || 500).json({

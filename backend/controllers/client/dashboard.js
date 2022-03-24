@@ -1,4 +1,5 @@
 async function getDashboardDetails(user, req, res, next) {
+  console.log('here');
   try {
     return res.status(200).json({
       status: 'ok',
