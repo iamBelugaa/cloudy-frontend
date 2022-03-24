@@ -8,9 +8,9 @@ const { checkEmail } = require('../../helpers/findUserDetails');
 async function changeUserInformation(user, req, res, next) {
   try {
     const { displayName, email } = req.body;
-    if (!displayName && !email) {
+
+    if (!displayName && !email)
       return next(httpErrors.BadRequest('Atleast one field is required.'));
-    }
 
     if (displayName || email) {
       if (user.email === email)
@@ -31,38 +31,28 @@ async function changeUserInformation(user, req, res, next) {
         );
     }
 
-    let validDisplayName, validEmail;
-
+    let validUsername, validEmail;
     if (displayName)
-      validDisplayName = await displayNameVerificationSchema.validateAsync({
+      validUsername = await displayNameVerificationSchema.validateAsync({
         displayName,
       });
 
     if (email)
       validEmail = await emailVerificationSchema.validateAsync({ email });
 
-    if (validDisplayName || validEmail) {
+    if (validUsername || validEmail) {
       await user.changeInformation({
-        username: validDisplayName?.displayName || user.displayName,
+        displayName: validUsername?.displayName || user.displayName,
         email: validEmail?.email || user.email,
       });
 
       return res.status(200).json({
-        ok: true,
+        status: 'ok',
         message: 'Information Updated.',
       });
     }
   } catch (error) {
-    if (error.isJoi) {
-      error.status = 422;
-      return next(error);
-    }
-
-    return next(
-      httpErrors.InternalServerError(
-        error.message || 'Something Went Wrong. Please Try Again Later.'
-      )
-    );
+    return next(error);
   }
 }
 

@@ -7,7 +7,7 @@ const File = require('../../models/file');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, path.join('uploads/')),
   filename: (req, file, cb) => {
-    const filename = `${uuid()}-${Date.now()}-${file.originalname}`;
+    const filename = `${uuid()}-${file.originalname}`;
     cb(null, filename);
   },
 });
@@ -20,13 +20,10 @@ const upload = multer({
 async function uploadFile(user, req, res, next) {
   try {
     upload(req, res, async (err) => {
-      if (err) {
-        return next(httpErrors.BadRequest(err.message));
-      }
+      if (err) return next(httpErrors.BadRequest(err.message));
 
-      if (!req.file) {
+      if (!req.file)
         return next(httpErrors.BadRequest('File Must Be Provided.'));
-      }
 
       const file = new File({
         originalName: req.file.originalname,
@@ -45,15 +42,13 @@ async function uploadFile(user, req, res, next) {
       await user.increaseFilesCountAndStorage(file.fileSize);
 
       return res.status(200).json({
-        ok: true,
-        fileUrl: `${process.env.ROOT_DOMAIN}/api/file/${file.uuid}`,
+        status: 'ok',
+        downloadLink: `${process.env.ROOT_DOMAIN}/api/file/${file.uuid}`,
         message: 'File uploaded. Copy the link or send it via Email.',
       });
     });
   } catch (error) {
-    return next(
-      httpErrors.InternalServerError('Something Went Wrong. Please Try Again.')
-    );
+    return next(error);
   }
 }
 

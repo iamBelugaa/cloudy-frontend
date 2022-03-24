@@ -3,7 +3,7 @@ const {
   PasswordVerificationSchema,
 } = require('../../services/userInputValidation');
 const hashPassword = require('../../helpers/hashPassword');
-const generateAccessAndRefreshTokens = require('../../services/generateTokens');
+const { generateAccessToken } = require('../../services/generateTokens');
 
 async function resetPassword(user, req, res, next) {
   try {
@@ -20,29 +20,23 @@ async function resetPassword(user, req, res, next) {
 
     if (validNewPassword) {
       const isValidPassword = await user.checkPassword(currentPassword);
-      if (!isValidPassword) {
+
+      if (!isValidPassword)
         return next(httpErrors.BadRequest("Password Doesn't Match."));
-      }
 
       user.password = await hashPassword(validNewPassword.newPassword);
       await user.save();
 
       return res.status(200).json({
-        ok: true,
-        token: await generateAccessAndRefreshTokens({
+        status: 'ok',
+        token: await generateAccessToken({
           id: user._id,
           email: user.email,
         }),
       });
     }
   } catch (error) {
-    if (error.isJoi) return next(httpErrors.BadRequest(error.message));
-
-    return next(
-      httpErrors.InternalServerError(
-        'Something Went Wrong. Please Try Again Later...!!!'
-      )
-    );
+    return next(error);
   }
 }
 

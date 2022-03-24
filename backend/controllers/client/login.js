@@ -1,5 +1,5 @@
 const httpErrors = require('http-errors');
-const generateTokens = require('../../services/generateTokens');
+const { generateAccessToken } = require('../../services/generateTokens');
 const { checkEmail } = require('../../helpers/findUserDetails');
 const { loginValidation } = require('../../helpers/checkUserInput');
 
@@ -12,42 +12,33 @@ async function loginUser(req, res, next) {
 
     if (isValidLoginDeatils) {
       const user = await checkEmail(isValidLoginDeatils.email, next);
-      if (!user) {
-        return next(httpErrors.Unauthorized('Invalid Login Details.'));
-      }
+      if (!user) return next(httpErrors.Unauthorized('Invalid Login Details.'));
 
       const isValidPassword = await user.checkPassword(req.body.password);
-      if (!isValidPassword) {
+      if (!isValidPassword)
         return next(httpErrors.Unauthorized('Invalid Login Details.'));
-      }
 
-      if (user.role === 'User') {
-        await user.updateLoginsCount();
-
+      if (user.role === 'User')
         return res.status(200).json({
-          ok: true,
-          token: await generateTokens({
+          status: 'ok',
+          token: await generateAccessToken({
             id: user._id,
             email: user.email,
           }),
+          user: {
+            id: user.id,
+            email: user.email,
+            displayName: user.displayName,
+          },
         });
-      } else
+      else
         return res.status(403).json({
-          ok: false,
+          status: 'error',
           message: "You don't have the permission to access this route.",
         });
     }
   } catch (error) {
-    if (error.isJoi) {
-      error.status = 422;
-      return next(error);
-    }
-
-    return next(
-      httpErrors.InternalServerError(
-        error.message || 'Something Went Wrong. Please Try Again Later.'
-      )
-    );
+    return next(error);
   }
 }
 

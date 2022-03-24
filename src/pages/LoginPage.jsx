@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import styled from 'styled-components';
 import Card from '../components/shared/Card';
 import NavBar from '../components/shared/NavBar';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { SmallText } from '../components/styles/TextStyles';
 import { COLORS } from '../components/styles/ColorStyles';
+import { SmallText } from '../components/styles/TextStyles';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import { authenticate } from '../useFetch';
+import { toastify } from '../utils';
 
 const data = {
   title: 'Sign In',
@@ -15,6 +18,8 @@ const data = {
 };
 
 const LoginPage = () => {
+  const [, setToken] = useLocalStorage('accessToken');
+  const [toDashboard, setToDashboard] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -22,9 +27,10 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await authenticate({ email, password }, 'login');
-      console.log(response);
+      setToken(response.token);
+      setToDashboard(true);
     } catch (error) {
-      console.error(error);
+      toastify(error.message, 'error');
     }
   };
 
@@ -34,6 +40,8 @@ const LoginPage = () => {
     password,
     setPassword,
   };
+
+  if (toDashboard) return <Redirect to="/dashboard" />;
 
   return (
     <Wrapper>
@@ -52,6 +60,7 @@ const LoginPage = () => {
           </Link>
         </div>
       </Card>
+      <ToastContainer />
     </Wrapper>
   );
 };

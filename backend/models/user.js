@@ -17,7 +17,6 @@ const UserSchema = new mongoose.Schema(
       default: 'User',
       required: true,
     },
-    totalLogins: { type: Number, default: 0, required: false },
     activeFiles: { type: Number, default: 0, required: false },
     totalEmailsSent: { type: Number, default: 0, required: false },
     activeStorage: { type: Number, default: 0, required: false },
@@ -37,15 +36,6 @@ UserSchema.methods.changeInformation = async function ({ email, username }) {
   try {
     this.email = email;
     this.username = username;
-    return this.save();
-  } catch (error) {
-    throw new Error('Something Went Wrong. Please Try Again Later.');
-  }
-};
-
-UserSchema.methods.updateLoginsCount = async function () {
-  try {
-    this.totalLogins++;
     return this.save();
   } catch (error) {
     throw new Error('Something Went Wrong. Please Try Again Later.');

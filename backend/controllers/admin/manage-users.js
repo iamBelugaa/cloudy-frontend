@@ -17,11 +17,11 @@ async function getAllUsers(user, req, res, next) {
       .exec();
 
     return res.status(200).json({
-      ok: true,
+      status: 'ok',
       users,
     });
   } catch (error) {
-    return next(httpErrors.InternalServerError('Something went wrong.'));
+    return next(error);
   }
 }
 
@@ -66,13 +66,12 @@ async function deleteUserAccount(user, req, res, next) {
 
       await userToDelete.remove();
       return res.status(200).json({
-        ok: true,
+        status: 'ok',
         message: `User account deleted and ${filesToDelete.length} file(s) were removed.`,
       });
     }
   } catch (error) {
-    if (error.isJoi) return next(httpErrors.UnprocessableEntity(error.message));
-    return next(httpErrors.InternalServerError('Something went wrong.'));
+    return next(error);
   }
 }
 

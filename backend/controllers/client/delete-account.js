@@ -24,15 +24,11 @@ async function deleteUserAccount(user, req, res, next) {
 
     await user.remove();
     return res.status(200).json({
-      ok: true,
+      status: 'ok',
       message: `Account Deleted. Thank you for using our service.`,
     });
   } catch (error) {
-    return next(
-      httpErrors.InternalServerError(
-        error.message || 'Something Went Wrong. Please Try Again Later.'
-      )
-    );
+    return next(error);
   }
 }
 

@@ -1,13 +1,12 @@
 const express = require('express');
-const authorizeUser = require('../../middlewares/authorizeUser');
+const authorizeUser = require('../../middlewares/authorize-user');
 const Router = express.Router();
 
 /* -------------------Routes -----------------------*/
-
 Router.get(
   '/dashboard',
   authorizeUser,
-  require('../../controllers/client/profile')
+  require('../../controllers/client/dashboard')
 );
 
 Router.post(
@@ -19,15 +18,15 @@ Router.post(
 Router.post('/mail', authorizeUser, require('../../controllers/client/mail'));
 
 Router.get(
-  '/settings',
+  '/profile',
   authorizeUser,
-  require('../../controllers/client/settings')
+  require('../../controllers/client/profile')
 );
 
 Router.post(
   '/change-info',
   authorizeUser,
-  require('../../controllers/client/changeinfo')
+  require('../../controllers/client/change-info')
 );
 
 Router.delete(
@@ -39,53 +38,37 @@ Router.delete(
 Router.delete(
   '/delete-account',
   authorizeUser,
-  require('../../controllers/client/deleteAccount')
+  require('../../controllers/client/delete-account')
+);
+
+Router.post(
+  '/change-password',
+  authorizeUser,
+  require('../../controllers/client/change-password')
 );
 
 Router.get(
-  '/get-images',
+  '/images',
   authorizeUser,
   require('../../controllers/client/history').getImages
 );
 
 Router.get(
-  '/get-videos',
+  '/videos',
   authorizeUser,
   require('../../controllers/client/history').getVideos
 );
 
 Router.get(
-  '/get-documents',
+  '/documents',
   authorizeUser,
   require('../../controllers/client/history').getDocuments
 );
 
 Router.post(
-  '/remove-image',
+  '/delete-file',
   authorizeUser,
-  require('../../controllers/client/history').removeImage
-);
-
-Router.post(
-  '/remove-video',
-  authorizeUser,
-  require('../../controllers/client/history').removeVideo
-);
-
-Router.post(
-  '/remove-document',
-  authorizeUser,
-  require('../../controllers/client/history').removeDocument
-);
-
-Router.get(
-  '/file/:uuid',
-  require('../../controllers/client/download').getdDownloadPage
-);
-
-Router.get(
-  '/download/:uuid',
-  require('../../controllers/client/download').downloadFile
+  require('../../controllers/client/history').removeFile
 );
 
 module.exports = Router;

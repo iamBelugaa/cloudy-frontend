@@ -9,9 +9,8 @@ const {
 
 async function sendEmailToClient(user, req, res, next) {
   try {
-    if (!req?.body?.emailTo || !req?.body?.uuid) {
+    if (!req?.body?.emailTo || !req?.body?.uuid)
       return next(httpErrors.BadRequest('All fields are required.'));
-    }
 
     const { emailTo, uuid } = req.body;
     const validEmail = await emailVerificationSchema.validateAsync({
@@ -20,6 +19,7 @@ async function sendEmailToClient(user, req, res, next) {
 
     if (validEmail) {
       const file = await File.findOne({ uuid }).exec();
+
       if (!file)
         return next(
           httpErrors.BadRequest("File doesn't exist anymore. Upload it again.")
@@ -46,16 +46,12 @@ async function sendEmailToClient(user, req, res, next) {
       await user.updateEmailsSentCount();
 
       return res.status(200).json({
-        ok: true,
+        status: 'ok',
         message: `Email Sent To ${emailTo}.`,
       });
     }
   } catch (error) {
-    if (error.message === 'Error Sending Email.') return next(error);
-    if (error.isJoi) return next(error);
-    return next(
-      httpErrors.InternalServerError('Something went wrong. Try again later.')
-    );
+    return next(error);
   }
 }
 

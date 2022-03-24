@@ -12,9 +12,8 @@ async function registerUser(req, res, next) {
       password: req.body.password,
     };
 
-    if (userDetails.email !== userDetails.email.toLowerCase()) {
+    if (userDetails.email !== userDetails.email.toLowerCase())
       return next(httpErrors.BadRequest(`Email must be in Lowercase.`));
-    }
 
     const isValidRegistrationDetails = await registrationValidation(
       userDetails,
@@ -23,13 +22,13 @@ async function registerUser(req, res, next) {
 
     if (isValidRegistrationDetails) {
       const existEmail = await checkEmail(isValidRegistrationDetails.email);
-      if (existEmail) {
+
+      if (existEmail)
         return next(
           httpErrors.Conflict(
             `"${isValidRegistrationDetails.email}" is already registered.`
           )
         );
-      }
 
       const hashedPassword = await hashPassword(
         isValidRegistrationDetails.password
@@ -43,21 +42,12 @@ async function registerUser(req, res, next) {
 
       await user.save();
       return res.status(200).json({
-        ok: true,
+        status: 'ok',
         message: 'Account Registered.',
       });
     }
   } catch (error) {
-    if (error.isJoi) {
-      error.status = 422;
-      return next(error);
-    }
-
-    return next(
-      httpErrors.InternalServerError(
-        error.message || 'Something Went Wrong. Please Try Again Later...!!!'
-      )
-    );
+    return next(error);
   }
 }
 

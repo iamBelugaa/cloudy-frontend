@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { SmallText } from '../components/styles/TextStyles';
 import { COLORS } from '../components/styles/ColorStyles';
 import { authenticate } from '../useFetch';
+import { ToastContainer } from 'react-toastify';
+import { toastify } from '../utils';
 
 const data = {
   title: 'Sign Up',
@@ -28,9 +30,9 @@ const SignUpPage = () => {
         { displayName, email, password },
         'register'
       );
-      console.log(response);
+      toastify(response.message);
     } catch (error) {
-      console.error(error);
+      toastify(error.message, 'error');
     }
   };
 
@@ -52,6 +54,7 @@ const SignUpPage = () => {
           <span style={{ color: `${COLORS.secondary1}` }}>Sign in</span>
         </Link>
       </Card>
+      <ToastContainer />
     </Wrapper>
   );
 };

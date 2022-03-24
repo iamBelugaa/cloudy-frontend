@@ -17,11 +17,11 @@ async function getAllAdmins(user, req, res, next) {
       .exec();
 
     return res.status(200).json({
-      ok: true,
+      status: 'ok',
       admins,
     });
   } catch (error) {
-    return next(httpErrors.InternalServerError('Something went wrong.'));
+    return next(error);
   }
 }
 
@@ -30,6 +30,7 @@ async function deleteAdminAccount(user, req, res, next) {
     const { email } = req.body;
 
     if (!email) return next(httpErrors.BadRequest('Email Must Be Provided.'));
+
     if (email === user.email)
       return next(
         httpErrors.BadRequest('To Delete Your Account Go To Settings Tab.')
@@ -54,19 +55,19 @@ async function deleteAdminAccount(user, req, res, next) {
 
       await adminToDelete.remove();
       return res.status(200).json({
-        ok: true,
+        status: 'ok',
         message: `Account deleted.`,
       });
     }
   } catch (error) {
-    if (error.isJoi) return next(httpErrors.UnprocessableEntity(error.message));
-    return next(httpErrors.InternalServerError('Something went wrong.'));
+    return next(error);
   }
 }
 
-async function addAdminUser(user, req, res, next) {
+async function addAdminAccount(user, req, res, next) {
   try {
     const { displayName, password, email } = req.body;
+
     if (!displayName || !password || !email)
       return next(httpErrors.BadRequest('All fields are required.'));
 
@@ -81,6 +82,7 @@ async function addAdminUser(user, req, res, next) {
 
     if (validDetails) {
       const existEmail = await checkEmailAdmin(validDetails.email);
+
       if (existEmail)
         return next(httpErrors.BadRequest(`${email} is already registered.`));
 
@@ -93,14 +95,13 @@ async function addAdminUser(user, req, res, next) {
 
       await admin.save();
       return res.status(201).json({
-        ok: true,
+        status: 'ok',
         message: 'Admin added successfully.',
       });
     }
   } catch (error) {
-    if (error.isJoi) return next(httpErrors.UnprocessableEntity(error.message));
-    return next(httpErrors.InternalServerError('Something went wrong.'));
+    return next(error);
   }
 }
 
-module.exports = { getAllAdmins, deleteAdminAccount, addAdminUser };
+module.exports = { getAllAdmins, deleteAdminAccount, addAdminAccount };

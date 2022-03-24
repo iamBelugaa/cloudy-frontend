@@ -23,7 +23,6 @@ const AdminSchema = new mongoose.Schema(
       default: false,
       required: true,
     },
-    totalLogins: { type: Number, default: 0, required: false },
   },
   { timestamps: true }
 );

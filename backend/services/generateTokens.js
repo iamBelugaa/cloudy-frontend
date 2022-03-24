@@ -1,13 +1,26 @@
 const JWT = require('jsonwebtoken');
+const httpErrors = require('http-errors');
 
-async function generateAccessAndRefreshTokens(user) {
-  try {
+function generateAccessToken(user) {
+  return new Promise((resolve, reject) => {
     const JWT_SIGNATURE = process.env.JWT_SIGNATURE;
-    const accessToken = JWT.sign({ user }, JWT_SIGNATURE);
-    return accessToken;
-  } catch (error) {
-    throw new Error('Somehting Went Wrong. Please Try Again Later.');
-  }
+    return JWT.sign(
+      { user },
+      JWT_SIGNATURE,
+      {
+        expiresIn: '2h',
+        issuer: process.env.ROOT_DOMAIN,
+        audience: String(user.id),
+      },
+      (error, token) => {
+        if (error) {
+          console.log(error);
+          return reject(httpErrors.InternalServerError());
+        }
+        return resolve(token);
+      }
+    );
+  });
 }
 
-module.exports = generateAccessAndRefreshTokens;
+module.exports = { generateAccessToken };

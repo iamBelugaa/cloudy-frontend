@@ -9,9 +9,8 @@ async function changeUserInformation(user, req, res, next) {
   try {
     const { displayName, email } = req.body;
 
-    if (!displayName && !email) {
+    if (!displayName && !email)
       return next(httpErrors.BadRequest('Atleast one field is required.'));
-    }
 
     if (displayName || email) {
       if (user.email === email)
@@ -21,48 +20,40 @@ async function changeUserInformation(user, req, res, next) {
           )
         );
 
-      if (await checkEmail(email))
-        return next(httpErrors.BadRequest('Email is already registered.'));
-
       if (user.displayName === displayName)
         return next(
           httpErrors.BadRequest(
             'Username must be different from your current username.'
           )
         );
+
+      if (await checkEmail(email))
+        return next(httpErrors.BadRequest('Email is already registered.'));
     }
 
-    let validUsername, validEmail;
+    let validDisplayName, validEmail;
+
     if (displayName)
-      validUsername = await displayNameVerificationSchema.validateAsync({
+      validDisplayName = await displayNameVerificationSchema.validateAsync({
         displayName,
       });
 
     if (email)
       validEmail = await emailVerificationSchema.validateAsync({ email });
 
-    if (validUsername || validEmail) {
+    if (validDisplayName || validEmail) {
       await user.changeInformation({
-        displayName: validUsername?.displayName || user.displayName,
+        username: validDisplayName?.displayName || user.displayName,
         email: validEmail?.email || user.email,
       });
 
       return res.status(200).json({
-        ok: true,
+        status: 'ok',
         message: 'Information Updated.',
       });
     }
   } catch (error) {
-    if (error.isJoi) {
-      error.status = 422;
-      return next(error);
-    }
-
-    return next(
-      httpErrors.InternalServerError(
-        error.message || 'Something Went Wrong. Please Try Again Later.'
-      )
-    );
+    return next(error);
   }
 }
 

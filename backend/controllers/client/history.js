@@ -4,87 +4,64 @@ const fs = require('fs');
 const path = require('path');
 const fileExtensions = require('../../helpers/getExtensions');
 
-async function getImages(user, req, res, next) {
+async function getFiles(user, extension, res) {
   try {
     const files = await File.find({
       'uploaderInfo.id': user._id,
       extension: {
-        $in: fileExtensions.IMAGES_EXT,
+        $in: extension,
       },
     })
       .sort('-createdAt')
       .select('fileSize path receiverInfo createdAt uuid -_id')
       .lean()
       .exec();
-
-    return res.status(200).json({ ok: true, files, username: user.username });
+    return res.status(200).json({ status: 'ok', files });
   } catch (error) {
-    return next(httpErrors.InternalServerError('Something went wrong.'));
+    throw error;
+  }
+}
+
+async function removeFile(user, req, res, next) {
+  try {
+    const { uuid } = req.body;
+    if (!uuid) return next(httpErrors.BadRequest('Bruh just move on.'));
+
+    const file = await File.findOne({ uuid }).exec();
+    if (!file) return next(httpErrors.BadRequest("File Doesn't Exist."));
+
+    if (fs.existsSync(path.join(__dirname, '../../', file.path)))
+      fs.unlinkSync(path.join(__dirname, '../../', file.path));
+
+    await user.decreaseFilesCountAndStorage(file.fileSize);
+    await file.remove();
+    return res.status(200).json({ status: 'ok', message: 'File Deleted.' });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function getImages(user, req, res, next) {
+  try {
+    return await getFiles(user, fileExtensions.IMAGES_EXT, res);
+  } catch (error) {
+    return next(error);
   }
 }
 
 async function getVideos(user, req, res, next) {
   try {
-    const files = await File.find({
-      'uploaderInfo.id': user._id,
-      extension: {
-        $in: fileExtensions.VIDEOS_EXT,
-      },
-    })
-      .sort('-createdAt')
-      .select('fileSize path receiverInfo createdAt uuid -_id')
-      .lean()
-      .exec();
-
-    return res.status(200).json({ ok: true, files, username: user.username });
+    return await getFiles(user, fileExtensions.VIDEOS_EXT, res);
   } catch (error) {
-    return next(httpErrors.InternalServerError('Something went wrong.'));
+    return next(error);
   }
 }
 
 async function getDocuments(user, req, res, next) {
   try {
-    const files = await File.find({
-      'uploaderInfo.id': user._id,
-      extension: {
-        $nin: fileExtensions.OTHERS_EXT,
-      },
-    })
-      .sort('-createdAt')
-      .select('fileSize path receiverInfo createdAt uuid -_id')
-      .lean()
-      .exec();
-
-    return res.status(200).json({ ok: true, files, username: user.username });
+    return await getFiles(user, fileExtensions.OTHERS_EXT, res);
   } catch (error) {
-    return next(httpErrors.InternalServerError('Something went wrong.'));
-  }
-}
-
-async function removeImage(user, req, res, next) {
-  try {
-    await removeFile(user, req, res, next);
-    return res.status(200).json({ ok: true, message: 'Image Deleted.' });
-  } catch (error) {
-    return next(httpErrors.InternalServerError('Something went wrong.'));
-  }
-}
-
-async function removeVideo(user, req, res, next) {
-  try {
-    await removeFile(user, req, res, next);
-    return res.status(200).json({ ok: true, message: 'Video Deleted.' });
-  } catch (error) {
-    return next(httpErrors.InternalServerError('Something went wrong.'));
-  }
-}
-
-async function removeDocument(user, req, res, next) {
-  try {
-    await removeFile(user, req, res, next);
-    return res.status(200).json({ ok: true, message: 'Document Removed..' });
-  } catch (error) {
-    return next(httpErrors.InternalServerError('Something went wrong.'));
+    return next(error);
   }
 }
 
@@ -98,49 +75,31 @@ async function removeHistory(user, req, res, next) {
       .exec();
 
     if (filesToDelete?.length === 0)
-      return res.status(200).json({ ok: true, message: 'No History Found.' });
+      return res
+        .status(200)
+        .json({ status: 'ok', message: 'No History Found.' });
 
-    await File.deleteMany({ 'uploaderInfo.id': user._id }).exec();
     let fileSize = 0;
     filesToDelete.forEach(async (file) => {
       try {
         if (fs.existsSync(path.join(__dirname, '../../', file.path)))
           fs.unlinkSync(path.join(__dirname, '../../', file.path));
         fileSize += file.fileSize;
+        await file.remove();
       } catch (error) {
-        console.log(error);
         return next(httpErrors.InternalServerError('Error deleting files.'));
       }
     });
 
     await user.decreaseFilesCountAndStorage(fileSize, filesToDelete.length);
     return res.status(200).json({
-      ok: true,
-      message: `${filesToDelete.length} File(s) Were Removed.`,
+      status: 'ok',
+      message: `${filesToDelete.length} ${
+        filesToDelete.length === 1 ? 'file' : 'files'
+      } Were Removed.`,
     });
   } catch (error) {
-    console.log(error);
-    return next(httpErrors.InternalServerError('Something went wrong.'));
-  }
-}
-
-async function removeFile(user, req, res, next) {
-  try {
-    const { uuid } = req.body;
-    if (!uuid) return next(httpErrors.BadRequest("File Doesn't Exist."));
-
-    const file = await File.findOne({ uuid }).exec();
-    if (!file) return next(httpErrors.BadRequest("File Doesn't Exist."));
-
-    if (fs.existsSync(path.join(__dirname, '../../', file.path)))
-      fs.unlinkSync(path.join(__dirname, '../../', file.path));
-
-    await user.decreaseFilesCountAndStorage(file.fileSize);
-    await file.remove();
-    return res.status(200).json({ ok: true, message: 'File Deleted.' });
-  } catch (error) {
-    console.log(error);
-    throw httpErrors.InternalServerError('Something went wrong.');
+    return next(error);
   }
 }
 
@@ -149,7 +108,5 @@ module.exports = {
   getImages,
   getVideos,
   getDocuments,
-  removeImage,
-  removeVideo,
-  removeDocument,
+  removeFile,
 };

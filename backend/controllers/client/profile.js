@@ -1,27 +1,16 @@
-const { formatBytes } = require('../../helpers/formatFile');
-const httpErrors = require('http-errors');
-
-async function userDashboardController(user, req, res, next) {
+async function userSettings(user, req, res, next) {
   try {
-    const date = new Date(user.createdAt);
-
     return res.status(200).json({
-      displayName: user.displayName,
-      email: user.email,
-      ip: req.ip,
-      totalLogins: user.totalLogins,
-      activeFiles: user.activeFiles,
-      activeStorage: formatBytes(user.activeStorage),
-      totalEmailsSent: user.totalEmailsSent,
-      createdAt: date.toDateString(),
+      status: 'ok',
+      data: {
+        displayName: user.displayName,
+        email: user.email,
+        createdAt: user.createdAt,
+      },
     });
   } catch (error) {
-    return next(
-      httpErrors.InternalServerError(
-        'Something went wrong on our end. We apologize for the inconvenience 😢.'
-      )
-    );
+    return next(error);
   }
 }
 
-module.exports = userDashboardController;
+module.exports = userSettings;
