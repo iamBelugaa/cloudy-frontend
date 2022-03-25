@@ -3,6 +3,7 @@ const { registrationValidation } = require('../../helpers/checkUserInput');
 const { checkEmail } = require('../../helpers/findUserDetails');
 const hashPassword = require('../../helpers/hashPassword');
 const User = require('../../models/user');
+const { generateAccessToken } = require('../../services/generateTokens');
 
 async function registerUser(req, res, next) {
   try {
@@ -41,9 +42,22 @@ async function registerUser(req, res, next) {
       });
 
       await user.save();
+      const token = await generateAccessToken({
+        id: user._id,
+        email: user.email,
+      });
+
       return res.status(200).json({
         status: 'ok',
         message: 'Account Registered.',
+        data: {
+          token,
+          user: {
+            id: user.id,
+            email: user.email,
+            displayName: user.displayName,
+          },
+        },
       });
     }
   } catch (error) {

@@ -7,7 +7,7 @@ const unautorizeMessage = {
   statusCode: 401,
 };
 
-async function authorizeAdmin(req, res, next) {
+async function authorizeUser(req, res, next) {
   if (!req.headers['x-authorization'])
     return res.status(401).json(unautorizeMessage);
 
@@ -53,4 +53,4 @@ async function authorizeAdmin(req, res, next) {
   }
 }
 
-module.exports = authorizeAdmin;
+module.exports = authorizeUser;

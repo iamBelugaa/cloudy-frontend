@@ -97,6 +97,11 @@ async function addAdminAccount(user, req, res, next) {
       return res.status(201).json({
         status: 'ok',
         message: 'Admin added successfully.',
+        data: {
+          displayName: admin.displayName,
+          email: admin.email,
+          id: admin.id,
+        },
       });
     }
   } catch (error) {
