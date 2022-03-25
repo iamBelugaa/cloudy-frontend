@@ -143,7 +143,7 @@ const Title = styled(H1)`
 `;
 
 const Description = styled(MediumText)`
-  color: ${COLORS.text1};
+  color: ${COLORS.text4};
 `;
 
 const Illustration = styled.img`
