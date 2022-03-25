@@ -29,7 +29,7 @@ function App() {
 }
 
 const ProtectedRoute = (props) => {
-  const token = localStorage.getItem('accessToken');
+  const token = JSON.parse(localStorage.getItem('uAccessToken'));
   const { path } = props;
   const { state } = useLocation();
 

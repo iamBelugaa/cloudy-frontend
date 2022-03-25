@@ -4,8 +4,9 @@ import Mail from '../../assets/icons/mail.svg';
 import CtaButton from '../buttons/CtaButton';
 import styled from 'styled-components';
 import { COLORS } from '../styles/ColorStyles';
+import { FORM_ACTIONS } from '../../hooks/useForm';
 
-const Form = ({ icon, placeholder, title, state, onSubmit }) => {
+const Form = ({ icon, placeholder, title, state, onSubmit, dispatch }) => {
   return (
     <FormWrapper onSubmit={onSubmit}>
       {icon && placeholder && (
@@ -15,7 +16,12 @@ const Form = ({ icon, placeholder, title, state, onSubmit }) => {
             type="text"
             placeholder={placeholder}
             value={state.displayName || ''}
-            onChange={(e) => state.setDisplayName(e.target.value)}
+            onChange={(e) =>
+              dispatch({
+                type: FORM_ACTIONS.updateState,
+                payload: { displayName: e.target.value },
+              })
+            }
           />
         </InputWrapper>
       )}
@@ -26,7 +32,12 @@ const Form = ({ icon, placeholder, title, state, onSubmit }) => {
           type="email"
           placeholder="Email address"
           value={state.email || ''}
-          onChange={(e) => state.setEmail(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: FORM_ACTIONS.updateState,
+              payload: { email: e.target.value },
+            })
+          }
         />
       </InputWrapper>
 
@@ -36,7 +47,12 @@ const Form = ({ icon, placeholder, title, state, onSubmit }) => {
           type="password"
           placeholder="*********"
           value={state.password || ''}
-          onChange={(e) => state.setPassword(e.target.value)}
+          onChange={(e) =>
+            dispatch({
+              type: FORM_ACTIONS.updateState,
+              payload: { password: e.target.value },
+            })
+          }
         />
       </InputWrapper>
       <CtaButton type="submit" title={title} />

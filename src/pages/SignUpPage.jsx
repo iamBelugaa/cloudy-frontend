@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import Card from '../components/shared/Card';
-import NavBar from '../components/shared/NavBar';
+import React, { useEffect, useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
 import Account from '../assets/icons/account.svg';
-import { Link } from 'react-router-dom';
-import { SmallText } from '../components/styles/TextStyles';
+import Card from '../components/shared/Card';
+import NavBar from '../components/shared/NavBar';
 import { COLORS } from '../components/styles/ColorStyles';
-import { authenticate } from '../useFetch';
-import { ToastContainer } from 'react-toastify';
+import { SmallText } from '../components/styles/TextStyles';
+import HamburgerContext from '../contexts/HamburgerContext';
+import { FORM_ACTIONS, useForm } from '../hooks/useForm';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import { toastify } from '../utils';
 
 const data = {
@@ -19,43 +21,63 @@ const data = {
 };
 
 const SignUpPage = () => {
-  const [displayName, setDisplayName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { state, dispatch } = useForm();
+  const [, setToken] = useLocalStorage('uAccessToken');
+  const [, setUser] = useLocalStorage('user');
+  const [toDashboard, setToDashboard] = useState(false);
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    (async function () {
+      const { error, userInfo } = await state;
+
+      if (error) {
+        toastify(error, 'error');
+        dispatch({
+          type: FORM_ACTIONS.updateState,
+          payload: { ...state, error: null },
+        });
+        return;
+      }
+
+      if (userInfo) {
+        setToken(userInfo.token);
+        setUser(userInfo.user);
+        setToDashboard(true);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await authenticate(
-        { displayName, email, password },
-        'register'
-      );
-      toastify(response.message);
-    } catch (error) {
-      toastify(error.message, 'error');
-    }
+    dispatch({
+      type: FORM_ACTIONS.register,
+      payload: {
+        ...state,
+      },
+    });
   };
 
-  const state = {
-    displayName,
-    setDisplayName,
-    email,
-    setEmail,
-    password,
-    setPassword,
-  };
+  if (toDashboard) return <Redirect to="/dashboard" />;
 
   return (
-    <Wrapper>
-      <NavBar />
-      <Card {...data} state={state} onSubmit={handleSubmit}>
-        <CaptionText>Already have an account?</CaptionText>
-        <Link to={'/login'}>
-          <span style={{ color: `${COLORS.secondary1}` }}>Sign in</span>
-        </Link>
-      </Card>
-      <ToastContainer />
-    </Wrapper>
+    <HamburgerContext>
+      <Wrapper>
+        <NavBar />
+        <Card
+          {...data}
+          state={state}
+          onSubmit={handleSubmit}
+          dispatch={dispatch}
+        >
+          <CaptionText>Already have an account?</CaptionText>
+          <Link to={'/login'}>
+            <span style={{ color: `${COLORS.secondary1}` }}>Sign in</span>
+          </Link>
+        </Card>
+        <ToastContainer />
+      </Wrapper>
+    </HamburgerContext>
   );
 };
 

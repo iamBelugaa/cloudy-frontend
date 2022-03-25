@@ -1,43 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { toastify } from '../utils';
-import { ToastContainer } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
+import config from '../config.json';
 
 const Dashboard = () => {
-  const [token] = useLocalStorage('accessToken');
-  const [userData, setUserData] = useState(null);
-  const history = useHistory();
+  const [userInfo, setUserInfo] = useState(null);
+  const [loading, setloading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!token) return history.push('/login');
+    const token = JSON.parse(localStorage.getItem('uAccessToken') || '');
+    if (!token) return setError('Login to access this route.');
 
-    fetch('http://localhost:8000/api/dashboard', {
-      method: 'GET',
-      headers: {
-        'x-Authorizaton': `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.status === 'error' || !response.ok) {
-          toastify(response.error, 'error');
-          localStorage.removeItem('accessToken');
-          return history.push('/login');
+    (async function () {
+      try {
+        const response = await fetch(`${config.apiEndpoint}/dashboard`, {
+          method: 'GET',
+          headers: {
+            'x-authorization': `Bearer ${token}`,
+          },
+        }).then((res) => res.json());
+
+        if (
+          response.status === 'error' &&
+          (response.statusCode === 401 || response.statusCode === 403)
+        ) {
+          localStorage.removeItem('uAccessToken');
+          setError(response.error);
         }
-        setUserData(response);
-      });
+
+        setError(null);
+        setloading(null);
+        setUserInfo(response.data);
+      } catch (error) {
+        setloading(false);
+        setError(error);
+      }
+    })();
   }, []);
 
+  if (loading) return <h1>LOADING</h1>;
+  if (error) return <h4>ERROR: {JSON.stringify(error)}</h4>;
+
   return (
-    <>
-      <div>Dashboard</div>
-      <p>
-        User Information:
-        {userData ? JSON.stringify(userData, null, 2) : 'Fetching'}
-      </p>
-      <ToastContainer />
-    </>
+    <div>
+      User Data:
+      {JSON.stringify(userInfo)}
+    </div>
   );
 };
 

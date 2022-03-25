@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MediaQueries, NavLinks } from '../../constants';
 import styled from 'styled-components';
 import MenuButton from '../buttons/MenuButton';
@@ -6,9 +6,10 @@ import LogoIcon from '../../assets/logo.svg';
 import { Link } from 'react-router-dom';
 import HamburgerIocn from '../../assets/icons/hamburger.svg';
 import MenuTooltip from './MenuTooltip';
+import { useHamburger } from '../../contexts/HamburgerContext';
 
 const NavBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, setIsOpen } = useHamburger();
 
   return (
     <Wrapper>
@@ -25,6 +26,7 @@ const NavBar = () => {
           src={HamburgerIocn}
           alt="Hamburger Iocn"
           onClick={() => setIsOpen(!isOpen)}
+          id="hamburger"
         />
         <MenuTooltip isOpen={isOpen} />
       </ContentWrapper>

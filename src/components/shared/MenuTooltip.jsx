@@ -35,7 +35,7 @@ const Tooltip = styled.div`
         ? `skewY(0deg) rotate(0deg) translateY(0)`
         : `skewY(-5deg) rotate(5deg) translateY(-30px)`};
     opacity: ${(p) => (p.isOpen ? '1' : '0')};
-    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: all 0.75s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
 `;
 

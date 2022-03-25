@@ -14,6 +14,7 @@ const Card = ({
   state,
   onSubmit,
   children,
+  dispatch,
 }) => {
   return (
     <Wrapper>
@@ -32,6 +33,7 @@ const Card = ({
             title={title}
             state={state}
             onSubmit={onSubmit}
+            dispatch={dispatch}
           />
           <LinksWrapper>{children}</LinksWrapper>
         </FormWrapper>

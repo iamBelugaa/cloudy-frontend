@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
@@ -6,8 +6,9 @@ import Card from '../components/shared/Card';
 import NavBar from '../components/shared/NavBar';
 import { COLORS } from '../components/styles/ColorStyles';
 import { SmallText } from '../components/styles/TextStyles';
+import HamburgerContext from '../contexts/HamburgerContext';
+import { FORM_ACTIONS, useForm } from '../hooks/useForm';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { authenticate } from '../useFetch';
 import { toastify } from '../utils';
 
 const data = {
@@ -18,50 +19,73 @@ const data = {
 };
 
 const LoginPage = () => {
-  const [, setToken] = useLocalStorage('accessToken');
+  const { state, dispatch } = useForm();
+  const [, setToken] = useLocalStorage('uAccessToken');
+  const [, setUser] = useLocalStorage('user');
   const [toDashboard, setToDashboard] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    (async function () {
+      const { error, userInfo } = await state;
+
+      if (error) {
+        toastify(error, 'error');
+        dispatch({
+          type: FORM_ACTIONS.updateState,
+          payload: { ...state, error: null },
+        });
+        return;
+      }
+
+      if (userInfo) {
+        setToken(userInfo.token);
+        setUser(userInfo.user);
+        setToDashboard(true);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await authenticate({ email, password }, 'login');
-      setToken(response.token);
-      setToDashboard(true);
-    } catch (error) {
-      toastify(error.message, 'error');
-    }
-  };
 
-  const state = {
-    email,
-    setEmail,
-    password,
-    setPassword,
+    dispatch({
+      type: FORM_ACTIONS.login,
+      payload: {
+        ...state,
+        path: '/login',
+      },
+    });
   };
 
   if (toDashboard) return <Redirect to="/dashboard" />;
 
   return (
-    <Wrapper>
-      <NavBar />
-      <Card {...data} onSubmit={handleSubmit} state={state}>
-        <div>
-          <CaptionText>Don't have an account?</CaptionText>
-          <Link to={'/register'}>
-            <span style={{ color: `${COLORS.secondary1}` }}>Sign Up</span>
-          </Link>
-        </div>
-        <div style={{ marginTop: '20px' }}>
-          <CaptionText>Admin? Login here </CaptionText>
-          <Link to={'/admin/login'}>
-            <span style={{ color: `${COLORS.secondary1}` }}>Sign In</span>
-          </Link>
-        </div>
-      </Card>
-      <ToastContainer />
-    </Wrapper>
+    <HamburgerContext>
+      <Wrapper>
+        <NavBar />
+        <Card
+          {...data}
+          onSubmit={handleSubmit}
+          state={state}
+          dispatch={dispatch}
+        >
+          <div>
+            <CaptionText>Don't have an account?</CaptionText>
+            <Link to={'/register'}>
+              <span style={{ color: `${COLORS.secondary1}` }}>Sign Up</span>
+            </Link>
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <CaptionText>Admin? Login here </CaptionText>
+            <Link to={'/admin/login'}>
+              <span style={{ color: `${COLORS.secondary1}` }}>Sign In</span>
+            </Link>
+          </div>
+        </Card>
+        <ToastContainer />
+      </Wrapper>
+    </HamburgerContext>
   );
 };
 

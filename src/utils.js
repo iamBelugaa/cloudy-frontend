@@ -5,7 +5,7 @@ export const toastify = (message, type = 'success', theme = 'dark') =>
     position: 'bottom-center',
     theme,
     type,
-    autoClose: 1500,
+    autoClose: 1000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

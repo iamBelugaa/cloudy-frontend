@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
@@ -6,8 +6,9 @@ import Card from '../components/shared/Card';
 import NavBar from '../components/shared/NavBar';
 import { COLORS } from '../components/styles/ColorStyles';
 import { SmallText } from '../components/styles/TextStyles';
+import HamburgerContext from '../contexts/HamburgerContext';
+import { FORM_ACTIONS, useForm } from '../hooks/useForm';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { authenticate } from '../useFetch';
 import { toastify } from '../utils';
 
 const data = {
@@ -18,50 +19,79 @@ const data = {
 };
 
 const AdminLoginPage = () => {
-  const [, setToken] = useLocalStorage('accessToken');
+  const { state, dispatch } = useForm();
+  const [, setToken] = useLocalStorage('uAccessToken');
+  const [, setUser] = useLocalStorage('admin');
   const [toDashboard, setToDashboard] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    (async function () {
+      const { error, userInfo } = await state;
+
+      if (error) {
+        toastify(error, 'error');
+        dispatch({
+          type: FORM_ACTIONS.updateState,
+          payload: { ...state, error: null },
+        });
+        return;
+      }
+
+      if (userInfo) {
+        setToken(userInfo.token);
+        setUser(userInfo.user);
+        setToDashboard(true);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await authenticate({ email, password }, 'admin/login');
-      setToken(response.token);
-      setToDashboard(true);
-    } catch (error) {
-      toastify(error.message, 'error');
-    }
-  };
+    dispatch({
+      type: FORM_ACTIONS.login,
+      payload: {
+        ...state,
+        path: '/admin/login',
+      },
+    });
 
-  const state = {
-    email,
-    setEmail,
-    password,
-    setPassword,
+    const { error, userInfo } = state;
+    if (error) return toastify(error, 'error');
+
+    setToken(userInfo.token);
+    setUser(userInfo.user);
+    setToDashboard(true);
   };
 
   if (toDashboard) return <Redirect to="/dashboard" />;
 
   return (
-    <Wrapper>
-      <NavBar />
-      <Card {...data} state={state} onSubmit={handleSubmit}>
-        <div>
-          <CaptionText>Don't have an account?</CaptionText>
-          <Link to={'/register'}>
-            <span style={{ color: `${COLORS.secondary1}` }}>Sign Up</span>
-          </Link>
-        </div>
-        <div style={{ marginTop: '20px' }}>
-          <CaptionText>User? Login here </CaptionText>
-          <Link to={'/login'}>
-            <span style={{ color: `${COLORS.secondary1}` }}>Sign In</span>
-          </Link>
-        </div>
-      </Card>
-      <ToastContainer />
-    </Wrapper>
+    <HamburgerContext>
+      <Wrapper>
+        <NavBar />
+        <Card
+          {...data}
+          state={state}
+          onSubmit={handleSubmit}
+          dispatch={dispatch}
+        >
+          <div>
+            <CaptionText>Don't have an account?</CaptionText>
+            <Link to={'/register'}>
+              <span style={{ color: `${COLORS.secondary1}` }}>Sign Up</span>
+            </Link>
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <CaptionText>User? Login here </CaptionText>
+            <Link to={'/login'}>
+              <span style={{ color: `${COLORS.secondary1}` }}>Sign In</span>
+            </Link>
+          </div>
+        </Card>
+        <ToastContainer />
+      </Wrapper>
+    </HamburgerContext>
   );
 };
 

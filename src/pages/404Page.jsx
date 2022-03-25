@@ -1,7 +1,8 @@
 import React from 'react';
+import HamburgerContext from '../contexts/HamburgerContext';
 
 const FourOhFourPage = () => {
-  return <div>FourOhFourPage</div>;
+  return <HamburgerContext>FourOhFourPage</HamburgerContext>;
 };
 
 export default FourOhFourPage;
