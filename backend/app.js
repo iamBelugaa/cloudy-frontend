@@ -1,6 +1,5 @@
 const express = require('express');
 const httpErrors = require('http-errors');
-const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -14,7 +13,6 @@ app.use(helmet());
 app.use(compression({ level: 6 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 // --------------- User Routes --------------- //
 app.use('/api', require('./routes/client/auth'));
@@ -44,7 +42,7 @@ app.use((error, req, res, next) => {
     return res.status(error.status || 500).json({
       status: 'error',
       statusCode: error.status || 500,
-      error: error.message || 'Internal Server Error. Something Went Wrong.',
+      error: error.message || 'Internal Server Error.',
     });
   }
 });
