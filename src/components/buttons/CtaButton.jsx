@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { MediumText } from '../styles/TextStyles';
 
-const CtaButton = ({ title, type }) => {
+const CtaButton = ({ title, type = 'button', onClick }) => {
   return (
-    <Wrapper type={type}>
+    <Wrapper type={type} onClick={onClick}>
       <Title>{title}</Title>
     </Wrapper>
   );
@@ -28,7 +28,7 @@ const Wrapper = styled.button`
   }
 
   @media (max-width: 520px) {
-    width: 285px;
+    max-width: 285px;
     justify-content: center;
   }
 `;
