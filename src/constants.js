@@ -12,6 +12,15 @@ export const NavLinks = [
   { name: 'Sign Up', href: '/register', icon: RegisterIcon },
 ];
 
+export const DashboardLinks = [
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+  { name: 'Upload', href: '/upload', icon: FeaturesIcon },
+  { name: 'Files', href: '/files', icon: Verified },
+  { name: 'Profile', href: '/profile', icon: RegisterIcon },
+];
+
+export const FileAttributes = ['Name', 'Size', 'Type', 'Upload Time'];
+
 export const Features = [
   {
     description:
