@@ -4,6 +4,7 @@ import RegisterIcon from './assets/icons/account.svg';
 import Verified from './assets/icons/verified.svg';
 import DiscountIcon from './assets/icons/discount.svg';
 import GiftIcon from './assets/icons/gift.svg';
+import settingsIcon from './assets/icons/setting.svg';
 
 export const NavLinks = [
   { name: 'Home', href: '/', icon: HomeIcon },
@@ -15,8 +16,8 @@ export const NavLinks = [
 export const DashboardLinks = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
   { name: 'Upload', href: '/upload', icon: FeaturesIcon },
-  { name: 'Files', href: '/files', icon: Verified },
-  { name: 'Profile', href: '/profile', icon: RegisterIcon },
+  { name: 'Files', href: '/files', icon: GiftIcon },
+  { name: 'Profile', href: '/profile', icon: settingsIcon },
 ];
 
 export const FileAttributes = ['Name', 'Size', 'Type', 'Upload Time'];
