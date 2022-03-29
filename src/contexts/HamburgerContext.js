@@ -9,7 +9,12 @@ const HamburgContext = ({ children }) => {
 
   useEffect(() => {
     const hideTooltip = (e) => {
-      if (e.type === 'click' && e.target.id !== 'hamburger') setIsOpen(false);
+      if (
+        e.type === 'click' &&
+        e.target.id !== 'hamburger' &&
+        e.target.className !== 'more'
+      )
+        setIsOpen(false);
       if (e.type === 'keydown' && e.key === 'Escape') setIsOpen(false);
     };
 
