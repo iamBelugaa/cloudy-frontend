@@ -23,3 +23,11 @@ export const deleteFile = (uuid, token) => {
     throw error;
   }
 };
+
+export const clearStorage = (token) => {
+  try {
+    return fetchData(`/clear-storage`, token, 'DELETE');
+  } catch (error) {
+    throw error;
+  }
+};
