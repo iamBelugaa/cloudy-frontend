@@ -5,9 +5,9 @@ import { COLORS } from '../styles/ColorStyles';
 import { SmallText } from '../styles/TextStyles';
 import { MediaQueries } from '../../constants';
 
-const MenuButton = ({ item }) => {
+const MenuButton = ({ item, onClick }) => {
   return (
-    <Link to={item.href}>
+    <Link to={item.href} onClick={onClick}>
       <MenuLink>
         {item.icon && <img src={item.icon} alt={`${item.name} icon`} />}
         <MenuName>{item.name}</MenuName>
@@ -29,6 +29,7 @@ const MenuLink = styled.div`
   img {
     max-width: 24px;
     height: 23px;
+    margin-bottom: 2.5px;
 
     @media ${MediaQueries.tabletSmall} {
       max-width: 20px;
@@ -56,6 +57,7 @@ const MenuLink = styled.div`
 `;
 
 const MenuName = styled(SmallText)`
+  font-size: 14px;
   font-weight: 500;
 
   @media ${MediaQueries.tablet} {
