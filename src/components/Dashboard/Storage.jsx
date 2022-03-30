@@ -1,5 +1,4 @@
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
 import docIcon from '../../assets/icons/doc.svg';
 import imageIcon from '../../assets/icons/image.svg';
@@ -72,19 +71,17 @@ const Storage = ({ filesCount, storageInfo }) => {
           <MediumText>Clear Storage</MediumText>
         </Button>
       </DangerZone>
-
       <SmallText style={{ textAlign: 'center' }}>
         &copy; {new Date().getFullYear()} Cloudy
       </SmallText>
-      <ToastContainer />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  padding: 40px 20px;
+  padding: 40px 20px 15px 20px;
   display: grid;
-  gap: 45px;
+  gap: 35px;
 `;
 
 const Title = styled(H3)`
@@ -117,7 +114,7 @@ const StorageInfo = styled.div`
 const FileCount = styled.div`
   display: grid;
   justify-content: space-between;
-  gap: 30px;
+  gap: 25px;
   grid-template-columns: repeat(2, auto);
   align-items: center;
 `;

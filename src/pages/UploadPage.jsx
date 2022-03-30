@@ -1,7 +1,8 @@
 import React from 'react';
+import DashboardIndex from '../components/Dashboard/DashboardIndex';
 
 const Upload = () => {
-  return <div>Upload</div>;
+  return <DashboardIndex>Upload</DashboardIndex>;
 };
 
 export default Upload;

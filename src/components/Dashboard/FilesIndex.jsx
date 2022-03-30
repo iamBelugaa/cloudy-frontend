@@ -1,39 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Caption, SmallText } from '../styles/TextStyles';
 import File from './File';
 import { FileAttributes } from '../../constants';
 import { COLORS } from '../styles/ColorStyles';
-import Loading from '../Loading/TextLoading';
-import { getTokenFromLocalstorage } from '../../utils';
-import { useHistory } from 'react-router-dom';
-import { fetchRecentFiles } from '../../services/dashboardService';
-import ShowError from '../Errors/ShowError';
 
-const FilesIndex = () => {
-  const [files, setFiles] = useState(null);
-  const [error, setError] = useState(null);
-  const token = getTokenFromLocalstorage();
-  const history = useHistory();
-
-  useEffect(() => {
-    if (!token) {
-      localStorage.removeItem('uAccessToken');
-      return history.push('/login');
-    }
-
-    fetchRecentFiles(token)
-      .then((files) => {
-        if (!files) return;
-
-        setError(null);
-        setFiles(files);
-      })
-      .catch((error) => setError(error.message));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+const FilesIndex = ({ files }) => {
   return (
     <Wrapper>
       <TextWrapper>
@@ -42,6 +15,7 @@ const FilesIndex = () => {
           <ViewAll>View All</ViewAll>
         </Link>
       </TextWrapper>
+
       <FilesWrapper>
         <AttributesTable count={FileAttributes.length}>
           {FileAttributes.map((att) => (
@@ -49,11 +23,8 @@ const FilesIndex = () => {
           ))}
         </AttributesTable>
 
-        {!files && !error && <Loading />}
-        {error && <ShowError />}
-
         {files?.length === 0 && (
-          <RecentFilesDesciption>
+          <Info>
             <Title>No files found.</Title>
             <Description>
               Cloudy has you covered allowing for all file types to be shared.
@@ -61,16 +32,18 @@ const FilesIndex = () => {
               Wherever you need, share and collaborate with friends, family and
               Co-Workers.
             </Description>
-          </RecentFilesDesciption>
+          </Info>
         )}
 
-        {files?.length > 0 && (
-          <Files>
-            {files.map((file) => (
-              <File file={file} key={file.uuid} />
-            ))}
-          </Files>
-        )}
+        <div>
+          {files?.length > 0 && (
+            <Files>
+              {files.map((file) => (
+                <File file={file} key={file.uuid} />
+              ))}
+            </Files>
+          )}
+        </div>
       </FilesWrapper>
     </Wrapper>
   );
@@ -117,7 +90,7 @@ const AttributesTable = styled.div`
   }
 `;
 
-const RecentFilesDesciption = styled.div`
+const Info = styled.div`
   text-align: center;
   max-width: 450px;
   margin: 30px auto;
