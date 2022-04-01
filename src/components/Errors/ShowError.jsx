@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   grid-template-columns: 450px;
   justify-content: center;
   align-content: center;
-  margin-top: -30px;
+  margin-top: -40px;
 `;
 
 const IllustrationWrapper = styled.div`

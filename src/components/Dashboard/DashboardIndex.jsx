@@ -210,6 +210,7 @@ const MainContent = styled.div`
 `;
 
 const OverviewWrapper = styled.div`
+  max-width: 400px;
   border-radius: 0px 20px 20px 0px;
   grid-area: overview;
 `;
