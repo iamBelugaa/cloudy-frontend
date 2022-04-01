@@ -21,7 +21,6 @@ const data = {
 const LoginPage = () => {
   const { state, dispatch } = useForm();
   const [, setToken] = useLocalStorage('uAccessToken');
-  const [, setUser] = useLocalStorage('user');
   const [toDashboard, setToDashboard] = useState(false);
 
   useEffect(() => {
@@ -39,7 +38,6 @@ const LoginPage = () => {
 
       if (userInfo) {
         setToken(userInfo.token);
-        setUser(userInfo.user);
         setToDashboard(true);
       }
     })();
