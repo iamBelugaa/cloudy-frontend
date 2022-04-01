@@ -1,8 +1,13 @@
 import { Slide, toast } from 'react-toastify';
 
-export const toastify = (message, type = 'success', theme = 'dark') =>
+export const toastify = (
+  message,
+  type = 'success',
+  theme = 'dark',
+  position = 'bottom-right'
+) =>
   toast(message, {
-    position: 'bottom-right',
+    position,
     theme,
     type,
     autoClose: 1000,
