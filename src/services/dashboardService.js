@@ -18,7 +18,7 @@ export const fetchRecentFiles = async (token) => {
 
 export const deleteFile = (uuid, token) => {
   try {
-    return fetchData(`/delete-file`, token, 'DELETE', uuid);
+    return fetchData(`/delete-file`, token, 'DELETE', { uuid });
   } catch (error) {
     throw error;
   }

@@ -16,7 +16,7 @@ export const fetchData = async (path, token, method = 'GET', body = {}) => {
         'x-authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ body }),
+      body: JSON.stringify(body),
     };
 
     let response;
@@ -29,7 +29,9 @@ export const fetchData = async (path, token, method = 'GET', body = {}) => {
         otherMethodOptions
       );
 
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok && !response.status === 400)
+      throw new Error(response.statusText);
+
     const data = await response.json();
 
     if (
@@ -43,7 +45,7 @@ export const fetchData = async (path, token, method = 'GET', body = {}) => {
     }
 
     if (data.status === 'error') throw new Error(data.error);
-    return data.data || data.message || data.files;
+    return data.data || data.message || data.files || data.token;
   } catch (error) {
     throw error;
   }
