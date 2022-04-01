@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import errorTrash from '../assets/illustrations/error-trash.svg';
-import DashboardIndex from '../components/Dashboard/DashboardIndex';
-import RecentFiles from '../components/Dashboard/FilesIndex';
-import ShowError from '../components/Errors/ShowError';
-import Loading from '../components/Loading/TextLoading';
-import { fetchRecentFiles } from '../services/dashboardService';
-import { getTokenFromLocalstorage } from '../utils';
+import errorTrash from '../../assets/illustrations/error-trash.svg';
+import DashboardIndex from '../../components/Dashboard/DashboardIndex';
+import RecentFiles from '../../components/Dashboard/FilesIndex';
+import ShowError from '../../components/Errors/ShowError';
+import Loading from '../../components/Loading/TextLoading';
+import { fetchRecentFiles } from '../../services/dashboardService';
+import { getTokenFromLocalstorage } from '../../utils';
 
 const Dashboard = () => {
   const [files, setFiles] = useState(null);

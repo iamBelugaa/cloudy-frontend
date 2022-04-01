@@ -7,14 +7,14 @@ import {
   useLocation,
 } from 'react-router-dom';
 import FourOhFourPage from '../pages/404Page';
-import AdminLoginPage from '../pages/AdminLoginPage';
-import DashboardPage from '../pages/Dashboard';
-import FilesPage from '../pages/FilesPage';
+import AdminLoginPage from '../pages/Admin/AdminLoginPage';
+import DashboardPage from '../pages/Client/Dashboard';
+import LoginPage from '../pages/Client/LoginPage';
+import ProfilePage from '../pages/Client/ProfilePage';
+import SignUp from '../pages/Client/SignUpPage';
+import UploadPage from '../pages/Client/UploadPage';
+import FilesPage from '../pages/Common/FilesPage';
 import HomePage from '../pages/HomePage';
-import LoginPage from '../pages/LoginPage';
-import ProfilePage from '../pages/ProfilePage';
-import SignUp from '../pages/SignUpPage';
-import UploadPage from '../pages/UploadPage';
 
 function App() {
   return (

@@ -2,25 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
-import Account from '../assets/icons/account.svg';
-import Card from '../components/shared/Card';
-import NavBar from '../components/shared/NavBar';
-import { COLORS } from '../components/styles/ColorStyles';
-import { SmallText } from '../components/styles/TextStyles';
-import HamburgerContext from '../contexts/HamburgerContext';
-import { FORM_ACTIONS, useForm } from '../hooks/useForm';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { toastify } from '../utils';
+import Card from '../../components/shared/Card';
+import NavBar from '../../components/shared/NavBar';
+import { COLORS } from '../../components/styles/ColorStyles';
+import { SmallText } from '../../components/styles/TextStyles';
+import HamburgerContext from '../../contexts/HamburgerContext';
+import { FORM_ACTIONS, useForm } from '../../hooks/useForm';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { toastify } from '../../utils';
 
 const data = {
-  title: 'Sign Up',
+  title: 'Sign In',
   description:
     'Cloudy has you covered allowing for all file types to be shared.',
-  icon: { img: Account, alt: 'User icon' },
   placeholder: 'Display name',
 };
 
-const SignUpPage = () => {
+const LoginPage = () => {
   const { state, dispatch } = useForm();
   const [, setToken] = useLocalStorage('uAccessToken');
   const [toDashboard, setToDashboard] = useState(false);
@@ -46,12 +44,14 @@ const SignUpPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     dispatch({
-      type: FORM_ACTIONS.register,
+      type: FORM_ACTIONS.login,
       payload: {
         ...state,
+        path: '/login',
       },
     });
   };
@@ -64,14 +64,22 @@ const SignUpPage = () => {
         <NavBar />
         <Card
           {...data}
-          state={state}
           onSubmit={handleSubmit}
+          state={state}
           dispatch={dispatch}
         >
-          <CaptionText>Already have an account?</CaptionText>
-          <Link to={'/login'}>
-            <span style={{ color: `${COLORS.secondary1}` }}>Sign in</span>
-          </Link>
+          <div>
+            <CaptionText>Don't have an account?</CaptionText>
+            <Link to={'/register'}>
+              <span style={{ color: `${COLORS.secondary1}` }}>Sign Up</span>
+            </Link>
+          </div>
+          <div style={{ marginTop: '20px' }}>
+            <CaptionText>Admin? Login here </CaptionText>
+            <Link to={'/admin/login'}>
+              <span style={{ color: `${COLORS.secondary1}` }}>Sign In</span>
+            </Link>
+          </div>
         </Card>
         <ToastContainer />
       </Wrapper>
@@ -96,11 +104,11 @@ const Wrapper = styled.main`
   }
 
   @media (max-width: 520px) {
-    padding: 30px 60px 100px 55px;
+    padding: 30px 60px 80px 55px;
   }
 
   @media (max-width: 470px) {
-    padding: 30px 30px 100px 25px;
+    padding: 30px 30px 80px 25px;
   }
 `;
 
@@ -111,4 +119,4 @@ const CaptionText = styled(SmallText)`
   padding-right: 5px;
 `;
 
-export default SignUpPage;
+export default LoginPage;

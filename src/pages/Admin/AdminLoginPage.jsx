@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
-import Card from '../components/shared/Card';
-import NavBar from '../components/shared/NavBar';
-import { COLORS } from '../components/styles/ColorStyles';
-import { SmallText } from '../components/styles/TextStyles';
-import HamburgerContext from '../contexts/HamburgerContext';
-import { FORM_ACTIONS, useForm } from '../hooks/useForm';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { toastify } from '../utils';
+import Card from '../../components/shared/Card';
+import NavBar from '../../components/shared/NavBar';
+import { COLORS } from '../../components/styles/ColorStyles';
+import { SmallText } from '../../components/styles/TextStyles';
+import HamburgerContext from '../../contexts/HamburgerContext';
+import { FORM_ACTIONS, useForm } from '../../hooks/useForm';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { toastify } from '../../utils';
 
 const data = {
   title: 'Sign In',
@@ -18,9 +18,10 @@ const data = {
   placeholder: 'Display name',
 };
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
   const { state, dispatch } = useForm();
   const [, setToken] = useLocalStorage('uAccessToken');
+  const [, setUser] = useLocalStorage('admin');
   const [toDashboard, setToDashboard] = useState(false);
 
   useEffect(() => {
@@ -38,22 +39,29 @@ const LoginPage = () => {
 
       if (userInfo) {
         setToken(userInfo.token);
+        setUser(userInfo.user);
         setToDashboard(true);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
     dispatch({
       type: FORM_ACTIONS.login,
       payload: {
         ...state,
-        path: '/login',
+        path: '/admin/login',
       },
     });
+
+    const { error, userInfo } = state;
+    if (error) return toastify(error, 'error');
+
+    setToken(userInfo.token);
+    setUser(userInfo.user);
+    setToDashboard(true);
   };
 
   if (toDashboard) return <Redirect to="/dashboard" />;
@@ -64,8 +72,8 @@ const LoginPage = () => {
         <NavBar />
         <Card
           {...data}
-          onSubmit={handleSubmit}
           state={state}
+          onSubmit={handleSubmit}
           dispatch={dispatch}
         >
           <div>
@@ -75,8 +83,8 @@ const LoginPage = () => {
             </Link>
           </div>
           <div style={{ marginTop: '20px' }}>
-            <CaptionText>Admin? Login here </CaptionText>
-            <Link to={'/admin/login'}>
+            <CaptionText>User? Login here </CaptionText>
+            <Link to={'/login'}>
               <span style={{ color: `${COLORS.secondary1}` }}>Sign In</span>
             </Link>
           </div>
@@ -119,4 +127,4 @@ const CaptionText = styled(SmallText)`
   padding-right: 5px;
 `;
 
-export default LoginPage;
+export default AdminLoginPage;

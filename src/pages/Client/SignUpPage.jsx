@@ -2,26 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
-import Card from '../components/shared/Card';
-import NavBar from '../components/shared/NavBar';
-import { COLORS } from '../components/styles/ColorStyles';
-import { SmallText } from '../components/styles/TextStyles';
-import HamburgerContext from '../contexts/HamburgerContext';
-import { FORM_ACTIONS, useForm } from '../hooks/useForm';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { toastify } from '../utils';
+import Account from '../../assets/icons/account.svg';
+import Card from '../../components/shared/Card';
+import NavBar from '../../components/shared/NavBar';
+import { COLORS } from '../../components/styles/ColorStyles';
+import { SmallText } from '../../components/styles/TextStyles';
+import HamburgerContext from '../../contexts/HamburgerContext';
+import { FORM_ACTIONS, useForm } from '../../hooks/useForm';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { toastify } from '../../utils';
 
 const data = {
-  title: 'Sign In',
+  title: 'Sign Up',
   description:
     'Cloudy has you covered allowing for all file types to be shared.',
+  icon: { img: Account, alt: 'User icon' },
   placeholder: 'Display name',
 };
 
-const AdminLoginPage = () => {
+const SignUpPage = () => {
   const { state, dispatch } = useForm();
   const [, setToken] = useLocalStorage('uAccessToken');
-  const [, setUser] = useLocalStorage('admin');
   const [toDashboard, setToDashboard] = useState(false);
 
   useEffect(() => {
@@ -39,7 +40,6 @@ const AdminLoginPage = () => {
 
       if (userInfo) {
         setToken(userInfo.token);
-        setUser(userInfo.user);
         setToDashboard(true);
       }
     })();
@@ -49,19 +49,11 @@ const AdminLoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch({
-      type: FORM_ACTIONS.login,
+      type: FORM_ACTIONS.register,
       payload: {
         ...state,
-        path: '/admin/login',
       },
     });
-
-    const { error, userInfo } = state;
-    if (error) return toastify(error, 'error');
-
-    setToken(userInfo.token);
-    setUser(userInfo.user);
-    setToDashboard(true);
   };
 
   if (toDashboard) return <Redirect to="/dashboard" />;
@@ -76,18 +68,10 @@ const AdminLoginPage = () => {
           onSubmit={handleSubmit}
           dispatch={dispatch}
         >
-          <div>
-            <CaptionText>Don't have an account?</CaptionText>
-            <Link to={'/register'}>
-              <span style={{ color: `${COLORS.secondary1}` }}>Sign Up</span>
-            </Link>
-          </div>
-          <div style={{ marginTop: '20px' }}>
-            <CaptionText>User? Login here </CaptionText>
-            <Link to={'/login'}>
-              <span style={{ color: `${COLORS.secondary1}` }}>Sign In</span>
-            </Link>
-          </div>
+          <CaptionText>Already have an account?</CaptionText>
+          <Link to={'/login'}>
+            <span style={{ color: `${COLORS.secondary1}` }}>Sign in</span>
+          </Link>
         </Card>
         <ToastContainer />
       </Wrapper>
@@ -112,11 +96,11 @@ const Wrapper = styled.main`
   }
 
   @media (max-width: 520px) {
-    padding: 30px 60px 80px 55px;
+    padding: 30px 60px 100px 55px;
   }
 
   @media (max-width: 470px) {
-    padding: 30px 30px 80px 25px;
+    padding: 30px 30px 100px 25px;
   }
 `;
 
@@ -127,4 +111,4 @@ const CaptionText = styled(SmallText)`
   padding-right: 5px;
 `;
 
-export default AdminLoginPage;
+export default SignUpPage;
