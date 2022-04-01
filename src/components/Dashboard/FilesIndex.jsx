@@ -80,7 +80,7 @@ const FilesWrapper = styled.div`
 
 const AttributesTable = styled.div`
   display: grid;
-  grid-template-columns: 2fr repeat(${(p) => p.count}, 1fr);
+  grid-template-columns: 2.5fr repeat(${(p) => p.count}, 1fr);
   padding-left: 15px;
   padding-right: 15px;
   color: ${COLORS.text4};

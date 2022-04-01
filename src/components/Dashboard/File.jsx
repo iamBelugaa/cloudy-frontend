@@ -22,7 +22,7 @@ const File = ({ file }) => {
 const Wrapper = styled.div`
   display: grid;
   align-items: center;
-  grid-template-columns: 2fr repeat(4, 1fr);
+  grid-template-columns: 2.5fr repeat(4, 1fr);
   padding: 14px 15px 13px 15px;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1),
