@@ -64,7 +64,7 @@ const ProfilePage = () => {
         setTokenInLocalStorage('uAccessToken', accessToken);
         toastify('Information updated.');
       })
-      .catch(({ message }) => toastify(error.message, 'error'));
+      .catch(({ message }) => toastify(message, 'error'));
   };
 
   const handlePasswordChange = async (e) => {
@@ -81,7 +81,7 @@ const ProfilePage = () => {
         setTokenInLocalStorage('uAccessToken', accessToken);
         toastify('Password updated.');
       })
-      .catch(({ message }) => toastify(error.message, 'error'));
+      .catch(({ message }) => toastify(message, 'error'));
   };
 
   const handleDeleteAccount = () => {
