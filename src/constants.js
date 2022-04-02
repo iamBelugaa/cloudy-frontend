@@ -21,6 +21,12 @@ export const DashboardLinks = [
 ];
 
 export const FileAttributes = ['Name', 'Size', 'Type', 'Upload Time'];
+export const Filters = [
+  { name: 'Images', value: 'images' },
+  { name: 'Videos', value: 'videos' },
+  { name: 'Music', value: 'music' },
+  { name: 'Others', value: 'others' },
+];
 
 export const Features = [
   {
