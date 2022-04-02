@@ -5,8 +5,22 @@ import { Caption, SmallText } from '../styles/TextStyles';
 import File from './File';
 import { FileAttributes } from '../../constants';
 import { COLORS } from '../styles/ColorStyles';
+import { deleteFile } from '../../services/dashboardService';
+import { getTokenFromLocalstorage, toastify } from '../../utils';
 
-const FilesIndex = ({ files }) => {
+const FilesIndex = ({ files, setFiles }) => {
+  const originalFiles = files;
+
+  const handleDelete = (uuid) => {
+    setFiles((files) => files.filter((f) => f.uuid !== uuid));
+    deleteFile(uuid, getTokenFromLocalstorage('uAccessToken'))
+      .then((response) => toastify('File deleted.'))
+      .catch((error) => {
+        toastify(error.message);
+        setFiles(originalFiles);
+      });
+  };
+
   return (
     <Wrapper>
       <TextWrapper>
@@ -39,7 +53,7 @@ const FilesIndex = ({ files }) => {
           {files?.length > 0 && (
             <Files>
               {files.map((file) => (
-                <File file={file} key={file.uuid} />
+                <File file={file} key={file.uuid} handleDelete={handleDelete} />
               ))}
             </Files>
           )}
@@ -80,7 +94,10 @@ const FilesWrapper = styled.div`
 
 const AttributesTable = styled.div`
   display: grid;
-  grid-template-columns: 2.5fr repeat(${(p) => p.count}, 1fr);
+  grid-template-columns: 2.5fr repeat(${(p) => p.count - 1}, 1fr) repeat(
+      2,
+      50px
+    );
   padding-left: 15px;
   padding-right: 15px;
   color: ${COLORS.text4};
