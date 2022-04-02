@@ -30,6 +30,7 @@ const SucessBox = ({ uid, sendMail, resetState }) => {
             type="text"
             value={`${config.rootDomain}/download/${uid}`}
             readOnly
+            autoFocus
           />
           <Icon
             src={copyIcon}
@@ -78,9 +79,9 @@ const Wrapper = styled.div`
 
 const Icon = styled.img`
   position: absolute;
-  width: 20px;
+  width: 18px;
   right: 12px;
-  top: 37px;
+  top: 38.5px;
   cursor: pointer;
 `;
 
@@ -142,14 +143,13 @@ const ActionContainer = styled.div`
 const Button = styled.button`
   width: 200px;
   justify-self: center;
-  color: ${COLORS.text3};
   cursor: pointer;
   border: none;
   outline: none;
   font-weight: 500;
   font-size: 15px;
   padding: 10px 30px;
-  background-color: ${COLORS.primary1};
+  background: linear-gradient(91.4deg, #2fb8ff 0%, #9eecd9 100%);
   border-radius: 20px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
     0px 20px 40px rgba(23, 0, 102, 0.2);

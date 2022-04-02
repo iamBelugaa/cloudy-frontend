@@ -17,6 +17,7 @@ const Upload = () => {
   const [uid, setUid] = useState(null);
   const [progress, setProgress] = useState(0);
   const inputRef = useRef();
+  const token = getTokenFromLocalstorage();
 
   const handleUpload = async (e) => {
     try {
@@ -26,7 +27,7 @@ const Upload = () => {
         return toastify('Maz allowed size is 100MB.', 'error');
 
       setIsUploading(true);
-      await uploadFile(file, setProgress, setFinishedUploading, setUid);
+      await uploadFile(file, token, setProgress, setFinishedUploading, setUid);
     } catch (error) {
       toastify(error.message);
     }
@@ -47,7 +48,7 @@ const Upload = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-authorization': `Bearer ${getTokenFromLocalstorage('uAccessToken')}`,
+        'x-authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({ uuid: uid, emailTo: email }),
     })

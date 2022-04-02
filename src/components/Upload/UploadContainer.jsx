@@ -77,14 +77,14 @@ const UploadContainer = ({
 const Wrapper = styled.div`
   width: 520px;
   display: grid;
-  min-height: ${(p) => (p.file ? '380px' : '350px')};
+  min-height: ${(p) => (p.file ? '380px' : '360px')};
   gap: ${(p) => (p.file ? '30px' : '40px')};
   grid-template-columns: 450px;
   justify-content: center;
-  border-radius: 30px;
+  border-radius: 40px;
   padding: 40px 30px 30px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
-    0px 20px 40px rgba(23, 0, 102, 0.2),
+    0px 20px 40px rgba(23, 0, 102, 0.25),
     inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
 `;
 
@@ -93,7 +93,6 @@ const UploadForm = styled.div`
   border: dashed 3px rgba(255, 255, 255, 0.5);
   border-radius: 20px;
   padding: ${(p) => (p.dragging ? '50px 50px 30px' : '30px 20px 40px')};
-  transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
 
   input {
     display: none;
