@@ -1,4 +1,5 @@
 import { Slide, toast } from 'react-toastify';
+import _ from 'lodash';
 
 export const toastify = (
   message,
@@ -23,7 +24,7 @@ export function formatBytes(bytes) {
   if (bytes === 0) return '0 Bytes';
 
   const kbToByte = 1024;
-  const sizes = ['Bytes', 'KB', 'MB'];
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const size = Math.floor(Math.log(bytes) / Math.log(kbToByte));
 
   return (
@@ -47,3 +48,8 @@ export const setTokenInLocalStorage = (key, token) =>
 
 export const getTokenFromLocalstorage = () =>
   JSON.parse(localStorage.getItem('uAccessToken') || '');
+
+export const paginate = (items, pageSize, pageNumber) => {
+  const startIndex = (pageNumber - 1) * pageSize;
+  return _(items).slice(startIndex).take(pageSize).value();
+};
