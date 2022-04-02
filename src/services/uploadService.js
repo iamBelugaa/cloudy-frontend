@@ -1,10 +1,8 @@
-import { getTokenFromLocalstorage } from '../utils';
 import config from '../config.json';
-
-const token = getTokenFromLocalstorage('uAccessToken');
 
 export const uploadFile = async (
   file,
+  token,
   setProgress,
   setFinishedUploading,
   setFileUrl

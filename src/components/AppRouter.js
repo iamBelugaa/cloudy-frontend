@@ -13,7 +13,7 @@ import LoginPage from '../pages/Client/LoginPage';
 import ProfilePage from '../pages/Client/ProfilePage';
 import SignUp from '../pages/Client/SignUpPage';
 import UploadPage from '../pages/Client/UploadPage';
-import FilesPage from '../pages/Common/FilesPage';
+import FilesPage from '../pages/Client/FilesPage';
 import HomePage from '../pages/HomePage';
 
 function App() {
