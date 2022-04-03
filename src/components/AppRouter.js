@@ -15,6 +15,7 @@ import SignUp from '../pages/Client/SignUpPage';
 import UploadPage from '../pages/Client/UploadPage';
 import FilesPage from '../pages/Client/FilesPage';
 import HomePage from '../pages/HomePage';
+import DownloadPage from '../pages/Client/DownloadPage';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <ProtectedRoute path="/upload" exact component={UploadPage} />
         <ProtectedRoute path="/files" exact component={FilesPage} />
         <ProtectedRoute path="/profile" exact component={ProfilePage} />
+        <Route path="/download/:fileId" exact component={DownloadPage} />
         <Route path="/*" component={FourOhFourPage} />
       </Switch>
     </Router>
