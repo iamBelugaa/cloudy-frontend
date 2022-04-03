@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
-import DashboardIndex from '../../components/Dashboard/DashboardIndex';
-import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
 import { parse } from 'query-string';
-import { useFiles } from '../../hooks/useFiles';
-import { getTokenFromLocalstorage, paginate } from '../../utils';
-import { Filters } from '../../constants';
-import { useHistory } from 'react-router-dom';
-import { COLORS } from '../../components/styles/ColorStyles';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import errorTrash from '../../assets/illustrations/error-trash.svg';
+import DashboardIndex from '../../components/Dashboard/DashboardIndex';
 import FilesIndex from '../../components/Dashboard/FilesIndex';
 import ShowError from '../../components/Errors/ShowError';
-import errorTrash from '../../assets/illustrations/error-trash.svg';
 import Pagination from '../../components/shared/Pagination';
+import { COLORS } from '../../components/styles/ColorStyles';
+import { Filters } from '../../constants';
+import { useFiles } from '../../hooks/useFiles';
+import { getTokenFromLocalstorage, paginate } from '../../utils';
 const PAGE_SIZE = 5;
 
 const FilesPage = () => {

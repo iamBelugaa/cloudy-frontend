@@ -13,7 +13,7 @@ const File = ({ file, handleDelete }) => {
         <p>{formatBytes(file.fileSize)}</p>
         <p>{file.extension.split('.')[1].toUpperCase()}</p>
         <p>{new Date(file.createdAt).toDateString()}</p>
-        <Link to={`/download/${file.uuid}`}>
+        <Link to={`/download/${file.uuid}`} target="_blank">
           <img src={downloadIcon} alt="Download icon" />
         </Link>
         <img
