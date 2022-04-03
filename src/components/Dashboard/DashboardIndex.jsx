@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
@@ -7,33 +7,24 @@ import Blob1 from '../../assets/paths/blob_1.svg';
 import Blob2 from '../../assets/paths/blob_2.svg';
 import { DashboardLinks } from '../../constants';
 import HamburgerContext from '../../contexts/HamburgerContext';
-import { getUserData } from '../../services/dashboardService';
-import { toastify } from '../../utils';
+import { getTokenFromLocalstorage } from '../../utils';
 import MenuButton from '../buttons/MenuButton';
 import Storage from '../Dashboard/Storage';
 import { default as TextLoading } from '../Loading/TextLoading';
 import { COLORS } from '../styles/ColorStyles';
 import { H2, MediumText } from '../styles/TextStyles';
+import stars from '../../assets/illustrations/stars.svg';
+import { useUser } from '../../hooks/useUser';
 
 const DashboardIndex = ({ children }) => {
-  const [userInfo, setUserInfo] = useState(null);
-  const token = JSON.parse(localStorage.getItem('uAccessToken') || '');
+  const token = getTokenFromLocalstorage('uAccessToken');
+  const [user, error] = useUser(token);
   const history = useHistory();
 
-  useEffect(() => {
-    if (!token) {
-      localStorage.removeItem('uAccessToken');
-      return history.push('/login');
-    }
-
-    getUserData(token)
-      .then((data) => {
-        if (!data) return;
-        setUserInfo(data);
-      })
-      .catch((error) => toastify(error.message));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  if (error) {
+    localStorage.removeItem('uAccessToken');
+    return history.push('/login');
+  }
 
   return (
     <HamburgerContext>
@@ -52,7 +43,7 @@ const DashboardIndex = ({ children }) => {
               </Links>
             </Navigation>
             <UserInfo>
-              <DisplayName>{userInfo && userInfo.displayName} • </DisplayName>
+              <DisplayName>{user && user.displayName} • </DisplayName>
               <LogoutButton
                 onClick={() => {
                   window.localStorage.removeItem('uAccessToken');
@@ -67,13 +58,13 @@ const DashboardIndex = ({ children }) => {
           <MainContent>{children}</MainContent>
 
           <OverviewWrapper>
-            {!userInfo && <TextLoading />}
-            {userInfo && (
+            {!user && <TextLoading />}
+            {user && (
               <Storage
-                filesCount={userInfo.filesCount}
+                filesCount={user.filesCount}
                 storageInfo={{
-                  activeStorage: userInfo.activeStorage,
-                  activeFiles: userInfo.activeFiles,
+                  activeStorage: user.activeStorage,
+                  activeFiles: user.activeFiles,
                 }}
               />
             )}
@@ -86,7 +77,7 @@ const DashboardIndex = ({ children }) => {
 };
 
 const Wrapper = styled.main`
-  background: linear-gradient(180deg, #343563 0%, #4926ad 100%);
+  background: url(${stars}), linear-gradient(180deg, #191a43 0%, #442d85 100%);
   backdrop-filter: blur(50px);
   color: ${COLORS.text3};
   padding: 40px 50px;
