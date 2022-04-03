@@ -36,7 +36,7 @@ export const Features = [
   },
   {
     description:
-      'Whether youre sharing holidays photos or work documents, Cloudy has you covered allowing for all file types to be shared.',
+      "Whether you're sharing holidays photos or work documents, Cloudy has you covered allowing for all file types to be shared.",
     icon: DiscountIcon,
   },
 
