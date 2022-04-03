@@ -95,7 +95,7 @@ const FilesWrapper = styled.div`
 
 const AttributesTable = styled.div`
   display: grid;
-  grid-template-columns: 2.5fr repeat(${(p) => p.count - 1}, 1fr) repeat(
+  grid-template-columns: 2.5fr repeat(${(p) => p.count - 2}, 1fr) 1.3fr repeat(
       2,
       50px
     );

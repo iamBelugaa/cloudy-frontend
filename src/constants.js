@@ -20,7 +20,7 @@ export const DashboardLinks = [
   { name: 'Profile', href: '/profile', icon: settingsIcon },
 ];
 
-export const FileAttributes = ['Name', 'Size', 'Type', 'Upload Time'];
+export const FileAttributes = ['Name', 'Size', 'Type', 'Upload Date'];
 export const Filters = [
   { name: 'Images', value: 'images' },
   { name: 'Videos', value: 'videos' },

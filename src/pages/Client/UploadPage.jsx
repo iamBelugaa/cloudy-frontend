@@ -54,10 +54,9 @@ const Upload = () => {
     })
       .then((res) => res.json())
       .then((response) => {
-        if (response.status === 'ok') {
-          toastify(`Email sent.`);
-          reset();
-        }
+        if (response.status === 'ok') toastify(`Email sent.`);
+        else toastify(response.error);
+        reset();
       })
       .catch((error) => toastify(error.message, 'error'));
   };

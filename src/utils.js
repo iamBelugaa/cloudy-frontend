@@ -32,7 +32,7 @@ export function formatBytes(bytes) {
 export function getSmallerFileName(filename) {
   if (filename.length > 20) {
     const length = filename.length;
-    return `${filename.slice(0, 20)}...${filename.slice(length - 10, length)}`;
+    return `${filename.slice(0, 15)}...${filename.slice(length - 5, length)}`;
   }
   return filename;
 }
