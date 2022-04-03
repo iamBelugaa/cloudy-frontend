@@ -38,7 +38,7 @@ const FilesIndex = ({ files, setFiles }) => {
         </AttributesTable>
 
         {files?.length === 0 && (
-          <Info>
+          <Info style={{ marginTop: '150px' }}>
             <Title>No files found.</Title>
             <Description>
               Cloudy has you covered allowing for all file types to be shared.
