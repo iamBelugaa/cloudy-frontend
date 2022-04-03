@@ -24,12 +24,14 @@ const Wrapper = styled.div`
   height: 170px;
   border-radius: 20px;
   padding: 30px;
-  box-shadow: rgb(47 184 255 / 30%) 0px 10px 40px,
-    rgb(47 184 255) 0px 0px 0px 1px inset;
   display: grid;
   gap: 30px;
   align-content: center;
   color: ${COLORS.text3};
+  box-shadow: rgb(47 184 255 / 30%) 0px 10px 40px,
+    inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+  background: rgba(25, 26, 67, 0.4);
+  backdrop-filter: blur(40px);
 `;
 
 const ProgressBar = styled.div`

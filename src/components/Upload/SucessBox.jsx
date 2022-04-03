@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../styles/ColorStyles';
 import { Caption, H2 } from '../styles/TextStyles';
@@ -8,6 +8,8 @@ import { toastify } from '../../utils';
 
 const SucessBox = ({ uid, sendMail, resetState }) => {
   const [email, setEmail] = useState('');
+
+  useEffect(() => toastify('File uploaded successfully.'), []);
 
   return (
     <Wrapper>
@@ -65,16 +67,17 @@ const SucessBox = ({ uid, sendMail, resetState }) => {
 
 const Wrapper = styled.div`
   width: 500px;
-  border-radius: 30px;
+  color: ${COLORS.text3};
   padding: 40px 20px 30px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
-    0px 20px 40px rgba(23, 0, 102, 0.2),
-    inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
   display: grid;
   justify-content: center;
   grid-template-columns: auto;
   gap: 45px;
-  color: ${COLORS.text3};
+  border-radius: 30px;
+  box-shadow: rgb(47 184 255 / 30%) 0px 10px 40px,
+    inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+  background: rgba(25, 26, 67, 0.4);
+  backdrop-filter: blur(40px);
 `;
 
 const Icon = styled.img`
@@ -146,10 +149,10 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   outline: none;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 15px;
   padding: 10px 30px;
-  background: linear-gradient(91.4deg, #2fb8ff 0%, #9eecd9 100%);
+  background: rgba(245, 245, 245, 0.9);
   border-radius: 20px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
     0px 20px 40px rgba(23, 0, 102, 0.2);

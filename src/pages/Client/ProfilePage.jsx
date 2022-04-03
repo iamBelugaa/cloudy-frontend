@@ -227,8 +227,8 @@ const InputWrapper = styled.div`
     color: ${COLORS.text3};
     background: linear-gradient(
       180deg,
-      rgba(99, 106, 150, 0.4) 0%,
-      rgba(182, 186, 214, 0.25) 100%
+      rgba(99, 106, 150, 0.1) 0%,
+      rgba(182, 186, 214, 0.15) 100%
     );
     border: 0.5px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);

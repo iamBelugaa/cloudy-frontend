@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 import logoutIcon from '../../assets/icons/signout.svg';
 import Blob1 from '../../assets/paths/blob_1.svg';
 import Blob2 from '../../assets/paths/blob_2.svg';
 import { DashboardLinks } from '../../constants';
 import HamburgerContext from '../../contexts/HamburgerContext';
-import { getTokenFromLocalstorage } from '../../utils';
+import { getTokenFromLocalstorage, toastify } from '../../utils';
 import MenuButton from '../buttons/MenuButton';
 import Storage from '../Dashboard/Storage';
-import { default as TextLoading } from '../Loading/TextLoading';
 import { COLORS } from '../styles/ColorStyles';
 import { H2, MediumText } from '../styles/TextStyles';
 import stars from '../../assets/illustrations/stars.svg';
@@ -20,6 +19,9 @@ const DashboardIndex = ({ children }) => {
   const token = getTokenFromLocalstorage('uAccessToken');
   const [user, error] = useUser(token);
   const history = useHistory();
+  const timeRef = useRef();
+
+  useEffect(() => clearTimeout(timeRef.current), []);
 
   if (error) {
     localStorage.removeItem('uAccessToken');
@@ -47,7 +49,11 @@ const DashboardIndex = ({ children }) => {
               <LogoutButton
                 onClick={() => {
                   window.localStorage.removeItem('uAccessToken');
-                  history.push('/login');
+                  toastify('Logged out.');
+                  timeRef.current = setTimeout(
+                    () => history.push('/login'),
+                    2000
+                  );
                 }}
               >
                 <img src={logoutIcon} alt="Logout icon" />
@@ -58,7 +64,6 @@ const DashboardIndex = ({ children }) => {
           <MainContent>{children}</MainContent>
 
           <OverviewWrapper>
-            {!user && <TextLoading />}
             {user && (
               <Storage
                 filesCount={user.filesCount}
@@ -70,7 +75,7 @@ const DashboardIndex = ({ children }) => {
             )}
           </OverviewWrapper>
         </DashboardWrapper>
-        <ToastContainer />
+        <Toaster />
       </Wrapper>
     </HamburgerContext>
   );

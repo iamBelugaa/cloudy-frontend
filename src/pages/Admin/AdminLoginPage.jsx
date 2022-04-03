@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 import Card from '../../components/shared/Card';
 import NavBar from '../../components/shared/NavBar';
@@ -89,7 +89,7 @@ const AdminLoginPage = () => {
             </Link>
           </div>
         </Card>
-        <ToastContainer />
+        <Toaster />
       </Wrapper>
     </HamburgerContext>
   );

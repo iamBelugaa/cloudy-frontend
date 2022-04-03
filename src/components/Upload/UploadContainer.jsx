@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { COLORS } from '../styles/ColorStyles';
 import { BodyIntro, Caption } from '../styles/TextStyles';
 import FilePreview from './FilePreview';
+import arrow from '../../assets/icons/arrow.svg';
 
 const UploadContainer = ({
   file,
@@ -69,6 +70,7 @@ const UploadContainer = ({
 
       <UploadButton type="button" onClick={handleUpload}>
         Upload
+        <img src={arrow} alt="Arrow icon" />
       </UploadButton>
     </Wrapper>
   );
@@ -83,9 +85,10 @@ const Wrapper = styled.div`
   justify-content: center;
   border-radius: 40px;
   padding: 40px 30px 30px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
-    0px 20px 40px rgba(23, 0, 102, 0.25),
+  box-shadow: rgb(47 184 255 / 30%) 0px 10px 40px,
     inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+  background: rgba(25, 26, 67, 0.4);
+  backdrop-filter: blur(40px);
 `;
 
 const UploadForm = styled.div`
@@ -93,6 +96,7 @@ const UploadForm = styled.div`
   border: dashed 3px rgba(255, 255, 255, 0.5);
   border-radius: 20px;
   padding: ${(p) => (p.dragging ? '50px 50px 30px' : '30px 20px 40px')};
+  background: rgba(25, 26, 67, 0.2);
 
   input {
     display: none;
@@ -124,33 +128,40 @@ const BrowseButton = styled.button`
 `;
 
 const UploadButton = styled.button`
-  width: 200px;
-  height: 44px;
-  font-weight: 500;
-  font-size: 17px;
-  padding: 10px 30px;
+  width: 250px;
+  font-size: 15px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 auto;
   justify-self: center;
   cursor: pointer;
-  border: none;
-  outline: none;
-  background: linear-gradient(91.4deg, #2fb8ff 0%, #9eecd9 100%);
-  border-radius: 40px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
-    0px 20px 40px rgba(23, 0, 102, 0.2);
-  transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(248, 248, 255, 0.9);
+  color: black;
+  border: 1px solid transparent;
+  padding: 6px 20px;
+  border-radius: 100px;
+  transition: all 0.2s;
 
-  :hover {
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
-      0px 30px 60px rgba(23, 0, 102, 0.4),
-      inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
-    transform: translateY(-3px);
+  p {
+    margin-right: 5px;
+    text-align: center;
+  }
+
+  img {
+    transition: transform 0.2s ease-in-out;
+    width: 34px;
+    margin-left: 6px;
+  }
+
+  :hover img {
+    transform: translateX(5px);
   }
 
   :active {
-    transform: translateY(0px);
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
-      0px 25px 45px rgba(23, 0, 102, 0.4),
-      inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
+    transform: scale(0.95);
   }
 `;
 

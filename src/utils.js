@@ -1,22 +1,16 @@
-import { Slide, toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import _ from 'lodash';
 
 export const toastify = (
   message,
   type = 'success',
-  theme = 'dark',
-  position = 'bottom-right'
+  duration = 1800,
+  position = 'top-center'
 ) =>
   toast(message, {
     position,
-    theme,
     type,
-    autoClose: 1000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    transition: Slide,
+    duration,
   });
 
 // **************** Formatting The Size Of The File **************** //

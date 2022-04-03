@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
 import Account from '../../assets/icons/account.svg';
 import stars from '../../assets/illustrations/stars.svg';
@@ -25,6 +25,7 @@ const SignUpPage = () => {
   const { state, dispatch } = useForm();
   const [, setToken] = useLocalStorage('uAccessToken');
   const [toDashboard, setToDashboard] = useState(false);
+  const timeRef = useRef();
 
   useEffect(() => {
     (async function () {
@@ -41,9 +42,12 @@ const SignUpPage = () => {
 
       if (userInfo) {
         setToken(userInfo.token);
-        setToDashboard(true);
+        toastify('Registered. Redirecting to Dashboard.', 'success', 1500);
+        timeRef.current = setTimeout(() => setToDashboard(true), 1600);
       }
     })();
+
+    return () => clearTimeout(timeRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
@@ -74,7 +78,7 @@ const SignUpPage = () => {
             <span style={{ color: `${COLORS.secondary1}` }}>Sign in</span>
           </Link>
         </Card>
-        <ToastContainer />
+        <Toaster />
       </Wrapper>
     </HamburgerContext>
   );
