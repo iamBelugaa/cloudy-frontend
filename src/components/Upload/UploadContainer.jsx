@@ -79,7 +79,7 @@ const UploadContainer = ({
 const Wrapper = styled.div`
   width: 520px;
   display: grid;
-  min-height: ${(p) => (p.file ? '380px' : '360px')};
+  min-height: ${(p) => (p.file ? '390px' : '370px')};
   gap: ${(p) => (p.file ? '30px' : '40px')};
   grid-template-columns: 450px;
   justify-content: center;
@@ -129,6 +129,7 @@ const BrowseButton = styled.button`
 
 const UploadButton = styled.button`
   width: 250px;
+  height: 55px;
   font-size: 15px;
   text-transform: uppercase;
   font-weight: 700;
@@ -141,7 +142,6 @@ const UploadButton = styled.button`
   background: rgba(248, 248, 255, 0.9);
   color: black;
   border: 1px solid transparent;
-  padding: 6px 20px;
   border-radius: 100px;
   transition: all 0.2s;
 

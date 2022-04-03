@@ -13,6 +13,7 @@ const FilesIndex = ({ files, setFiles }) => {
 
   const handleDelete = (uuid) => {
     setFiles((files) => files.filter((f) => f.uuid !== uuid));
+
     deleteFile(uuid, getTokenFromLocalstorage('uAccessToken'))
       .then((response) => toastify('File deleted.'))
       .catch((error) => {
