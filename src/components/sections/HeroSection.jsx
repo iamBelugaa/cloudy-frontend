@@ -8,6 +8,7 @@ import illustration from '../../assets/illustrations/computer-work.svg';
 import GetStartedButton from '../buttons/GetStartedButton';
 import NavBar from '../shared/NavBar';
 import { MediaQueries } from '../../constants';
+import stars from '../../assets/illustrations/stars.svg';
 
 const HeroSection = () => {
   return (
@@ -44,6 +45,7 @@ const Wrapper = styled.div`
   padding: 40px;
   position: relative;
   overflow: hidden;
+  background: url(${stars});
 
   @media ${MediaQueries.tablet} {
     padding: 30px 50px;

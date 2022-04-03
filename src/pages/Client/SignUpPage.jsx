@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import styled from 'styled-components';
 import Account from '../../assets/icons/account.svg';
+import stars from '../../assets/illustrations/stars.svg';
 import Card from '../../components/shared/Card';
 import NavBar from '../../components/shared/NavBar';
 import { COLORS } from '../../components/styles/ColorStyles';
@@ -84,7 +85,7 @@ const Wrapper = styled.main`
   padding: 40px 80px 63px 80px;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, #343563 0%, #4926ad 100%);
+  background: url(${stars}), linear-gradient(180deg, #343563 0%, #4926ad 100%);
   backdrop-filter: blur(50px);
 
   @media (max-width: 1000px) {
