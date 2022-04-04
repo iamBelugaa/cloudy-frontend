@@ -42,7 +42,10 @@ const ProfilePage = () => {
   const token = getTokenFromLocalstorage('uAccessToken');
 
   useEffect(
-    () => (document.title = `${profile?.displayName} - Profile`),
+    () =>
+      (document.title = profile
+        ? `${profile.displayName} - Dashboard`
+        : 'Welcome to your Dashboard'),
     [profile]
   );
 

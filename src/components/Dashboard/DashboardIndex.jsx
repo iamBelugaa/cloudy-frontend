@@ -22,7 +22,10 @@ const DashboardIndex = ({ children }) => {
   const timeRef = useRef();
 
   useEffect(
-    () => (document.title = `${user?.displayName} - Dashboard`),
+    () =>
+      (document.title = user
+        ? `${user.displayName} - Dashboard`
+        : 'Welcome to your Dashboard'),
     [user]
   );
 
