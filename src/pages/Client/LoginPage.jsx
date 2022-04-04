@@ -24,6 +24,8 @@ const LoginPage = () => {
   const [toDashboard, setToDashboard] = useState(false);
   const timeRef = useRef();
 
+  useEffect(() => (document.title = 'Login to Cloudy'), []);
+
   useEffect(() => {
     (async function () {
       const { error, userInfo } = await state;

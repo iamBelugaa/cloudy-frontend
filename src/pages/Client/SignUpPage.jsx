@@ -27,6 +27,8 @@ const SignUpPage = () => {
   const [toDashboard, setToDashboard] = useState(false);
   const timeRef = useRef();
 
+  useEffect(() => (document.title = 'Sing Up to Cloudy'), []);
+
   useEffect(() => {
     (async function () {
       const { error, userInfo } = await state;

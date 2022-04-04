@@ -21,6 +21,11 @@ const DashboardIndex = ({ children }) => {
   const history = useHistory();
   const timeRef = useRef();
 
+  useEffect(
+    () => (document.title = `${user?.displayName} - Dashboard`),
+    [user]
+  );
+
   useEffect(() => clearTimeout(timeRef.current), []);
 
   if (error) {

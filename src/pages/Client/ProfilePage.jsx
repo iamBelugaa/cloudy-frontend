@@ -41,6 +41,11 @@ const ProfilePage = () => {
   const history = useHistory();
   const token = getTokenFromLocalstorage('uAccessToken');
 
+  useEffect(
+    () => (document.title = `${profile?.displayName} - Profile`),
+    [profile]
+  );
+
   useEffect(() => {
     setPersonalInfo({ ...profile });
 
