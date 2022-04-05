@@ -10,7 +10,7 @@ import Pagination from '../../components/shared/Pagination';
 import { COLORS } from '../../components/styles/ColorStyles';
 import { Filters } from '../../constants';
 import { useFiles } from '../../hooks/useFiles';
-import { getTokenFromLocalstorage, paginate, userEndpoints } from '../../utils';
+import { getTokenFromLocalstorage, paginate } from '../../utils';
 const PAGE_SIZE = 5;
 
 const FilesPage = () => {
@@ -45,11 +45,7 @@ const FilesPage = () => {
             ))}
           </FilterWrapper>
 
-          <FilesIndex
-            files={paginatedFiles}
-            setFiles={setFiles}
-            deleteFileUrl={userEndpoints.deleteFile}
-          />
+          <FilesIndex files={paginatedFiles} setFiles={setFiles} />
 
           <Pagination
             itemsCount={files.length}

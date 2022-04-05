@@ -3,19 +3,25 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FileAttributes } from '../../constants';
 import { postData as deleteFile } from '../../services/httpService';
-import { getTokenFromLocalstorage, toastify } from '../../utils';
+import {
+  adminEndpoints,
+  getTokenFromLocalstorage,
+  toastify,
+  userEndpoints,
+} from '../../utils';
 import { COLORS } from '../styles/ColorStyles';
 import { Caption, SmallText } from '../styles/TextStyles';
 import File from './File';
 
-const FilesIndex = ({ files, setFiles, deleteFileUrl }) => {
+const FilesIndex = ({ files, setFiles, isAdmin = false }) => {
   const originalFiles = files;
 
   const handleDelete = (uuid) => {
     setFiles((files) => files.filter((f) => f.uuid !== uuid));
+    const url = isAdmin ? adminEndpoints.deleteFile : userEndpoints.deleteFile;
 
     deleteFile(
-      deleteFileUrl,
+      url,
       getTokenFromLocalstorage('uAccessToken'),
       { uuid },
       'DELETE'

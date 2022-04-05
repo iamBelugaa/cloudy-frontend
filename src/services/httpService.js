@@ -31,13 +31,13 @@ export async function fetchData(url, token) {
   }
 }
 
-export async function postData(url, token, body = {}, method) {
+export async function postData(url, token, body, method) {
   try {
     const response = await fetch(url, {
       method,
       headers: {
         'x-authorization': `Bearer ${token}`,
-        'Content-Type': method !== 'DELETE' && body ? 'application/json' : '',
+        'Content-Type': body ? 'application/json' : '',
       },
       body: JSON.stringify(body),
     });
