@@ -1,32 +1,32 @@
-import { fetchData } from './httpService';
+import { fetchData, postData } from './httpService';
 
-export const getProfile = (token) => {
+export const getProfile = (url, token) => {
   try {
-    return fetchData(`/profile`, token);
+    return fetchData(url, token);
   } catch (error) {
     throw error;
   }
 };
 
-export const changePersonalInfo = (token, body) => {
+export const changePersonalInfo = (url, token, body) => {
   try {
-    return fetchData('/change-info', token, 'POST', body);
+    return postData(url, token, body, 'POST');
   } catch (error) {
     throw error;
   }
 };
 
-export const changePassword = (token, body) => {
+export const changePassword = (url, token, body) => {
   try {
-    return fetchData('/change-password', token, 'POST', body);
+    return postData(url, token, body, 'POST');
   } catch (error) {
     throw error;
   }
 };
 
-export const deleteAccount = (token) => {
+export const deleteAccount = (url, token) => {
   try {
-    return fetchData('/delete-account', token, 'DELETE');
+    return fetchData(url, token, '', 'DELETE');
   } catch (error) {
     throw error;
   }

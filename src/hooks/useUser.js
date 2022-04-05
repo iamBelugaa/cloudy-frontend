@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
-import { getUserData } from '../services/dashboardService';
+import { fetchData as getUserData } from '../services/httpService';
 
-export const useUser = (token) => {
+export const useUser = (url, token) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getUserData(token)
+    getUserData(url, token)
       .then((data) => {
         if (!data) return;
         setUser(data);
       })
       .catch((error) => setError(error.message));
-  }, [token]);
+  }, [token, url]);
 
   return [user, error];
 };

@@ -9,7 +9,7 @@ import { SmallText } from '../../components/styles/TextStyles';
 import HamburgerContext from '../../contexts/HamburgerContext';
 import { FORM_ACTIONS, useForm } from '../../hooks/useForm';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { toastify } from '../../utils';
+import { toastify, userEndpoints } from '../../utils';
 
 const data = {
   title: 'Sign In',
@@ -57,7 +57,7 @@ const LoginPage = () => {
       type: FORM_ACTIONS.login,
       payload: {
         ...state,
-        path: '/login',
+        url: userEndpoints.login,
       },
     });
   };

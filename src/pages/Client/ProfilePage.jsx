@@ -25,10 +25,11 @@ import {
   getTokenFromLocalstorage,
   setTokenInLocalStorage,
   toastify,
+  userEndpoints,
 } from '../../utils';
 
 const ProfilePage = () => {
-  const [profile, error] = useProfile();
+  const [profile, error] = useProfile(userEndpoints.profile);
   const [personalInfo, setPersonalInfo] = useState({
     displayName: profile?.displayName | '',
     email: profile?.email || '',
@@ -44,7 +45,7 @@ const ProfilePage = () => {
   useEffect(
     () =>
       (document.title = profile
-        ? `${profile.displayName} - Dashboard`
+        ? `${profile.displayName} - Profile`
         : 'Welcome to your Dashboard'),
     [profile]
   );
@@ -64,7 +65,7 @@ const ProfilePage = () => {
     )
       return toastify('Display and email must be different.', 'error');
 
-    changePersonalInfo(token, {
+    changePersonalInfo(userEndpoints.changeInfo, token, {
       displayName: personalInfo.displayName,
       email: personalInfo.email,
     })
@@ -81,7 +82,7 @@ const ProfilePage = () => {
     if (passwords.currentPassword === passwords.newPassword)
       return toastify('New password  must be different.', 'error');
 
-    changePassword(token, {
+    changePassword(userEndpoints.changePassword, token, {
       currentPassword: passwords.currentPassword,
       newPassword: passwords.newPassword,
     })
@@ -93,7 +94,7 @@ const ProfilePage = () => {
   };
 
   const handleDeleteAccount = () => {
-    deleteAccount(token)
+    deleteAccount(userEndpoints.deleteAccount, token)
       .then(() => {
         toastify('Accout deleted.');
         localStorage.removeItem('uAccessToken');

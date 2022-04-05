@@ -2,7 +2,7 @@ import { getTokenFromLocalstorage } from '../utils';
 import { useState, useEffect } from 'react';
 import { getProfile } from '../services/profileService';
 
-export function useProfile() {
+export function useProfile(url) {
   const token = getTokenFromLocalstorage('uAccessToken');
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ export function useProfile() {
   useEffect(() => {
     (async function () {
       try {
-        const profile = await getProfile(token);
+        const profile = await getProfile(url, token);
         if (!profile) return;
 
         setError(null);
@@ -19,7 +19,7 @@ export function useProfile() {
         setError(error.message);
       }
     })();
-  }, [token]);
+  }, [token, url]);
 
   return [profile, error];
 }

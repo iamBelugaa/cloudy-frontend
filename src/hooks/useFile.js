@@ -6,7 +6,7 @@ const useFile = (uuid) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${config.apiEndpoint}/file/${uuid}`)
+    fetch(`${config.userApiEndpoint}/file/${uuid}`)
       .then((res) => res.json())
       .then((response) => {
         if (response.status === 'ok') setFile(response.data);

@@ -1,8 +1,6 @@
-import config from '../config.json';
-
-async function authenticate(data, path) {
+async function authenticate(data, url) {
   try {
-    return await fetch(`${config.apiEndpoint}${path}`, {
+    return await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -4,8 +4,13 @@ import docIcon from '../../assets/icons/doc.svg';
 import imageIcon from '../../assets/icons/image.svg';
 import trashIcon from '../../assets/icons/trash.svg';
 import videoIcon from '../../assets/icons/video.svg';
-import { clearStorage } from '../../services/dashboardService';
-import { formatBytes, getTokenFromLocalstorage, toastify } from '../../utils';
+import { postData as clearStorage } from '../../services/httpService';
+import {
+  formatBytes,
+  getTokenFromLocalstorage,
+  toastify,
+  userEndpoints,
+} from '../../utils';
 import { H3, MediumText, SmallText } from '../styles/TextStyles';
 
 const Storage = ({ filesCount, storageInfo }) => {
@@ -18,14 +23,10 @@ const Storage = ({ filesCount, storageInfo }) => {
     { name: 'Documents', icon: docIcon, count: filesCount.othersCount },
   ];
 
-  const handleClearStorage = async () => {
-    try {
-      const message = await clearStorage(token);
-      if (!message) return;
-      toastify(message);
-    } catch (error) {
-      toastify(error.message, 'error');
-    }
+  const handleClearStorage = () => {
+    clearStorage(userEndpoints.clearStorage, token, null, 'DELETE')
+      .then((message) => toastify(message))
+      .catch(({ message }) => toastify(message));
   };
 
   return (

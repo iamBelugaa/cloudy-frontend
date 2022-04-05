@@ -7,7 +7,7 @@ import Blob1 from '../../assets/paths/blob_1.svg';
 import Blob2 from '../../assets/paths/blob_2.svg';
 import { DashboardLinks } from '../../constants';
 import HamburgerContext from '../../contexts/HamburgerContext';
-import { getTokenFromLocalstorage, toastify } from '../../utils';
+import { getTokenFromLocalstorage, toastify, userEndpoints } from '../../utils';
 import MenuButton from '../buttons/MenuButton';
 import Storage from '../Dashboard/Storage';
 import { COLORS } from '../styles/ColorStyles';
@@ -17,7 +17,7 @@ import { useUser } from '../../hooks/useUser';
 
 const DashboardIndex = ({ children }) => {
   const token = getTokenFromLocalstorage('uAccessToken');
-  const [user, error] = useUser(token);
+  const [user, error] = useUser(userEndpoints.dashboard, token);
   const history = useHistory();
   const timeRef = useRef();
 

@@ -1,4 +1,4 @@
-import config from '../config.json';
+import { userEndpoints } from '../utils';
 
 export const uploadFile = async (
   file,
@@ -21,9 +21,6 @@ export const uploadFile = async (
 
     /* ----------- Handling Error --------------  */
     xhr.upload.onerror = (e) => {
-      console.log('xhr error', e);
-      console.log(xhr.responseText);
-      console.log(xhr.response);
       xhr.abort();
       throw new Error('Error uploading file.');
     };
@@ -39,7 +36,7 @@ export const uploadFile = async (
       }
     };
 
-    xhr.open('POST', `${config.apiEndpoint}/upload`, true);
+    xhr.open('POST', userEndpoints.upload, true);
     xhr.setRequestHeader('x-authorization', `Bearer ${token}`);
     xhr.send(formData);
   } catch (error) {

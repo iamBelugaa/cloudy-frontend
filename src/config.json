@@ -1,4 +1,5 @@
 {
-  "apiEndpoint": "http://localhost:8000/api",
+  "userApiEndpoint": "http://localhost:8000/api",
+  "adminApiEndpoint": "http://localhost:8000/api/admin",
   "rootDomain": "http://localhost:3000"
 }

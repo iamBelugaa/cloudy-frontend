@@ -32,14 +32,14 @@ const reducer = (state, { type, payload }) => {
   }
 
   if (type === FORM_ACTIONS.login) {
-    const { email, password, path } = payload;
+    const { email, password, url } = payload;
 
     if (!email || !password)
       return { ...state, error: 'All fields are required.' };
 
     return (async function () {
       try {
-        const response = await login({ email, password }, path);
+        const response = await login({ email, password }, url);
 
         if (response.status === 'error')
           return { ...state, error: response.error };

@@ -1,21 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { FileAttributes } from '../../constants';
+import { postData as deleteFile } from '../../services/httpService';
+import { getTokenFromLocalstorage, toastify } from '../../utils';
+import { COLORS } from '../styles/ColorStyles';
 import { Caption, SmallText } from '../styles/TextStyles';
 import File from './File';
-import { FileAttributes } from '../../constants';
-import { COLORS } from '../styles/ColorStyles';
-import { deleteFile } from '../../services/dashboardService';
-import { getTokenFromLocalstorage, toastify } from '../../utils';
 
-const FilesIndex = ({ files, setFiles }) => {
+const FilesIndex = ({ files, setFiles, deleteFileUrl }) => {
   const originalFiles = files;
 
   const handleDelete = (uuid) => {
     setFiles((files) => files.filter((f) => f.uuid !== uuid));
 
-    deleteFile(uuid, getTokenFromLocalstorage('uAccessToken'))
-      .then((response) => toastify('File deleted.'))
+    deleteFile(
+      deleteFileUrl,
+      getTokenFromLocalstorage('uAccessToken'),
+      { uuid },
+      'DELETE'
+    )
+      .then(() => toastify('File deleted.'))
       .catch((error) => {
         toastify(error.message);
         setFiles(originalFiles);

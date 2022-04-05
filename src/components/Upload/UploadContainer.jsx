@@ -5,13 +5,7 @@ import { BodyIntro, Caption } from '../styles/TextStyles';
 import FilePreview from './FilePreview';
 import arrow from '../../assets/icons/arrow.svg';
 
-const UploadContainer = ({
-  file,
-  setFile,
-  inputRef,
-  handleUpload,
-  setFinishedUploading,
-}) => {
+const UploadContainer = ({ file, setFile, inputRef, handleUpload }) => {
   const [dragging, setDragging] = useState(false);
 
   return (
