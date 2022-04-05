@@ -1,17 +1,16 @@
-async function authenticate(data, url) {
+export async function authenticate(data, url) {
   try {
-    return await fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     }).then((res) => res.json());
+
+    if (response.status === 'error') throw new Error(response.error);
+    return response.data;
   } catch (error) {
     throw error;
   }
 }
-
-export const register = (data) => authenticate(data, '/register');
-
-export const login = (data, path) => authenticate(data, path);

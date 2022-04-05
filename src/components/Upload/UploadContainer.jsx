@@ -77,12 +77,11 @@ const Wrapper = styled.div`
   gap: ${(p) => (p.file ? '30px' : '40px')};
   grid-template-columns: 450px;
   justify-content: center;
-  border-radius: 40px;
   padding: 40px 30px 30px;
+  background: rgba(50, 61, 109, 0.2);
+  border-radius: 40px;
   box-shadow: rgb(47 184 255 / 30%) 0px 10px 40px,
     inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
-  background: rgba(25, 26, 67, 0.4);
-  backdrop-filter: blur(40px);
 `;
 
 const UploadForm = styled.div`
@@ -90,7 +89,7 @@ const UploadForm = styled.div`
   border: dashed 3px rgba(255, 255, 255, 0.5);
   border-radius: 20px;
   padding: ${(p) => (p.dragging ? '50px 50px 30px' : '30px 20px 40px')};
-  background: rgba(25, 26, 67, 0.2);
+  background: rgba(25, 26, 67, 0.3);
 
   input {
     display: none;

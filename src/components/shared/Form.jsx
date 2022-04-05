@@ -4,9 +4,8 @@ import Mail from '../../assets/icons/mail.svg';
 import CtaButton from '../Buttons/CtaButton';
 import styled from 'styled-components';
 import { COLORS } from '../styles/ColorStyles';
-import { FORM_ACTIONS } from '../../hooks/useForm';
 
-const Form = ({ icon, placeholder, title, state, onSubmit, dispatch }) => {
+const Form = ({ icon, placeholder, title, onSubmit, form, setForm }) => {
   return (
     <FormWrapper onSubmit={onSubmit}>
       {icon && placeholder && (
@@ -15,12 +14,12 @@ const Form = ({ icon, placeholder, title, state, onSubmit, dispatch }) => {
           <input
             type="text"
             placeholder={placeholder}
-            value={state.displayName || ''}
+            value={form.displayName || ''}
             onChange={(e) =>
-              dispatch({
-                type: FORM_ACTIONS.updateState,
-                payload: { displayName: e.target.value },
-              })
+              setForm((form) => ({
+                ...form,
+                displayName: e.target.value,
+              }))
             }
           />
         </InputWrapper>
@@ -31,12 +30,12 @@ const Form = ({ icon, placeholder, title, state, onSubmit, dispatch }) => {
         <input
           type="email"
           placeholder="Email address"
-          value={state.email || ''}
+          value={form.email || ''}
           onChange={(e) =>
-            dispatch({
-              type: FORM_ACTIONS.updateState,
-              payload: { email: e.target.value },
-            })
+            setForm((form) => ({
+              ...form,
+              email: e.target.value,
+            }))
           }
         />
       </InputWrapper>
@@ -46,12 +45,12 @@ const Form = ({ icon, placeholder, title, state, onSubmit, dispatch }) => {
         <input
           type="password"
           placeholder="*********"
-          value={state.password || ''}
+          value={form.password || ''}
           onChange={(e) =>
-            dispatch({
-              type: FORM_ACTIONS.updateState,
-              payload: { password: e.target.value },
-            })
+            setForm((form) => ({
+              ...form,
+              password: e.target.value,
+            }))
           }
         />
       </InputWrapper>

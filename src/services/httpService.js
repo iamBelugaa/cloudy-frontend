@@ -1,5 +1,3 @@
-import { Redirect } from 'react-router-dom';
-
 export async function fetchData(url, token) {
   try {
     const response = await fetch(url, {
@@ -19,10 +17,8 @@ export async function fetchData(url, token) {
       (data.statusCode === 401 ||
         data.statusCode === 403 ||
         data.statusCode === 404)
-    ) {
-      localStorage.removeItem('uAccessToken');
-      return <Redirect to="/login" />;
-    }
+    )
+      throw new Error('Unauthorized. Please login.');
 
     if (data.status === 'error') throw new Error(data.error);
     return data.data || data.message || data.files || data.token;
@@ -52,10 +48,8 @@ export async function postData(url, token, body, method) {
       (data.statusCode === 401 ||
         data.statusCode === 403 ||
         data.statusCode === 404)
-    ) {
-      localStorage.removeItem('uAccessToken');
-      return <Redirect to="/login" />;
-    }
+    )
+      throw new Error('Unauthorized. Please login.');
 
     if (data.status === 'error') throw new Error(data.error);
     return data.data || data.message || data.files || data.token;

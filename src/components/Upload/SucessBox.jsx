@@ -6,14 +6,20 @@ import copyIcon from '../../assets/icons/copy.svg';
 import config from '../../config.json';
 import { toastify } from '../../utils';
 
-const SucessBox = ({ uid, sendMail, resetState }) => {
+const SuccessBox = ({ uid, sendMail, resetState }) => {
   const [email, setEmail] = useState('');
 
   useEffect(() => toastify('File uploaded successfully.'), []);
 
   return (
     <Wrapper>
-      <H2 style={{ fontWeight: 600, textAlign: 'center' }}>
+      <H2
+        style={{
+          fontWeight: 600,
+          textAlign: 'center',
+          textShadow: '0px 20px 40px rgba(0, 0, 0, 0.5)',
+        }}
+      >
         File uploaded{' '}
         <span
           style={{
@@ -76,7 +82,7 @@ const Wrapper = styled.div`
   border-radius: 30px;
   box-shadow: rgb(47 184 255 / 30%) 0px 10px 40px,
     inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.5);
-  background: rgba(25, 26, 67, 0.4);
+  background: rgba(50, 61, 109, 0.2);
   backdrop-filter: blur(40px);
 `;
 
@@ -171,4 +177,4 @@ const Button = styled.button`
   }
 `;
 
-export default SucessBox;
+export default SuccessBox;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
@@ -9,9 +9,9 @@ import NavBar from '../../components/Shared/NavBar';
 import { COLORS } from '../../components/styles/ColorStyles';
 import { SmallText } from '../../components/styles/TextStyles';
 import HamburgerContext from '../../contexts/HamburgerContext';
-import { FORM_ACTIONS, useForm } from '../../hooks/useForm';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { toastify } from '../../utils';
+import { toastify, userEndpoints } from '../../utils';
+import { authenticate as register } from '../../services/authService';
 
 const data = {
   title: 'Sign Up',
@@ -22,45 +22,31 @@ const data = {
 };
 
 const SignUpPage = () => {
-  const { state, dispatch } = useForm();
+  const [form, setForm] = useState({
+    displayName: '',
+    email: '',
+    password: '',
+  });
   const [, setToken] = useLocalStorage('uAccessToken');
   const [toDashboard, setToDashboard] = useState(false);
-  const timeRef = useRef();
 
   useEffect(() => (document.title = 'Sing Up to Cloudy'), []);
 
-  useEffect(() => {
-    (async function () {
-      const { error, userInfo } = await state;
-
-      if (error) {
-        toastify(error, 'error');
-        dispatch({
-          type: FORM_ACTIONS.updateState,
-          payload: { ...state, error: null },
-        });
-        return;
-      }
-
-      if (userInfo) {
-        setToken(userInfo.token);
-        toastify('Registered. Redirecting to Dashboard.', 'success', 1500);
-        timeRef.current = setTimeout(() => setToDashboard(true), 1600);
-      }
-    })();
-
-    return () => clearTimeout(timeRef.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({
-      type: FORM_ACTIONS.register,
-      payload: {
-        ...state,
-      },
-    });
+    register(form, userEndpoints.register)
+      .then((data) => {
+        if (data) {
+          setForm({
+            displayName: '',
+            email: '',
+            password: '',
+          });
+          setToken(data.token);
+          setToDashboard(true);
+        }
+      })
+      .catch((e) => toastify(e.message, 'error'));
   };
 
   if (toDashboard) return <Redirect to="/dashboard" />;
@@ -69,12 +55,7 @@ const SignUpPage = () => {
     <HamburgerContext>
       <Wrapper>
         <NavBar />
-        <Card
-          {...data}
-          state={state}
-          onSubmit={handleSubmit}
-          dispatch={dispatch}
-        >
+        <Card {...data} form={form} onSubmit={handleSubmit} setForm={setForm}>
           <CaptionText>Already have an account?</CaptionText>
           <Link to={'/login'}>
             <span style={{ color: `${COLORS.secondary1}` }}>Sign in</span>

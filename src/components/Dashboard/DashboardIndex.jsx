@@ -11,7 +11,7 @@ import { getTokenFromLocalstorage, toastify, userEndpoints } from '../../utils';
 import MenuButton from '../Buttons/MenuButton';
 import Storage from '../Dashboard/Storage';
 import { COLORS } from '../styles/ColorStyles';
-import { H2, MediumText } from '../styles/TextStyles';
+import { Caption, H2 } from '../styles/TextStyles';
 import stars from '../../assets/illustrations/stars.svg';
 import { useUser } from '../../hooks/useUser';
 
@@ -29,12 +29,15 @@ const DashboardIndex = ({ children }) => {
     [user]
   );
 
-  useEffect(() => clearTimeout(timeRef.current), []);
+  useEffect(() => {
+    if (error) {
+      localStorage.removeItem('uAccessToken');
+      return history.push('/login');
+    }
 
-  if (error) {
-    localStorage.removeItem('uAccessToken');
-    return history.push('/login');
-  }
+    return () => clearTimeout(timeRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
 
   return (
     <HamburgerContext>
@@ -193,7 +196,7 @@ const UserInfo = styled.div`
   border-radius: 10px;
 `;
 
-const DisplayName = styled(MediumText)`
+const DisplayName = styled(Caption)`
   height: 40px;
   display: flex;
   align-items: center;

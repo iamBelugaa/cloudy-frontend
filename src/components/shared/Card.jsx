@@ -11,10 +11,10 @@ const Card = ({
   description,
   icon,
   placeholder,
-  state,
   onSubmit,
+  form,
+  setForm,
   children,
-  dispatch,
 }) => {
   return (
     <Wrapper>
@@ -31,9 +31,9 @@ const Card = ({
             icon={icon}
             placeholder={placeholder}
             title={title}
-            state={state}
+            form={form}
             onSubmit={onSubmit}
-            dispatch={dispatch}
+            setForm={setForm}
           />
           <LinksWrapper>{children}</LinksWrapper>
         </FormWrapper>

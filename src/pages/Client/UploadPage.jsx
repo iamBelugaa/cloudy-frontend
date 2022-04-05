@@ -6,8 +6,8 @@ import ProgressContainer from '../../components/Upload/ProgressContainer';
 import UploadContainer from '../../components/Upload/UploadContainer';
 import SucessBox from '../../components/Upload/SucessBox';
 import { uploadFile } from '../../services/uploadService';
-import { getTokenFromLocalstorage, toastify } from '../../utils';
-import config from '../../config.json';
+import { getTokenFromLocalstorage, toastify, userEndpoints } from '../../utils';
+import { postData as sendMailTo } from '../../services/httpService';
 const MAX_ALLOWED_SIZE = 100 * 1024 * 1024; /* ---- 100MB -----  */
 
 const Upload = () => {
@@ -42,20 +42,11 @@ const Upload = () => {
   };
 
   const sendMail = async (email) => {
-    if (!email) return;
+    if (!email) return toastify('Provide an email.', 'error');
 
-    fetch(`${config.apiEndpoint}/mail`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify({ uuid: uid, emailTo: email }),
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.status === 'ok') toastify(`Email sent.`);
-        else toastify(response.error);
+    sendMailTo(userEndpoints.mail, token, { uuid: uid, emailTo: email }, 'POST')
+      .then((message) => {
+        if (message) toastify(message);
         reset();
       })
       .catch((error) => toastify(error.message, 'error'));
