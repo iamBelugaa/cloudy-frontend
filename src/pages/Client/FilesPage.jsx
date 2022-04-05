@@ -6,7 +6,7 @@ import errorTrash from '../../assets/illustrations/error-trash.svg';
 import DashboardIndex from '../../components/Dashboard/DashboardIndex';
 import FilesIndex from '../../components/Dashboard/FilesIndex';
 import ShowError from '../../components/Errors/ShowError';
-import Pagination from '../../components/shared/Pagination';
+import Pagination from '../../components/Shared/Pagination';
 import { COLORS } from '../../components/styles/ColorStyles';
 import { Filters } from '../../constants';
 import { useFiles } from '../../hooks/useFiles';

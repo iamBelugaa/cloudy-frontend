@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BodyIntro, H1 } from '../styles/TextStyles';
 import SeparatorImg from '../../assets/paths/Separator.svg';
 import { Features } from '../../constants';
-import FeatureBox from '../shared/FeatureBox';
+import FeatureBox from '../Shared/FeatureBox';
 import Path1 from '../../assets/paths/vectors.svg';
 import { COLORS } from '../styles/ColorStyles';
 

@@ -7,7 +7,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import FourOhFourPage from '../pages/404Page';
-import AdminLoginPage from '../pages/Admin/AdminLoginPage';
+import AdminLoginPage from '../pages/Admin/LoginPage';
 import DashboardPage from '../pages/Client/Dashboard';
 import LoginPage from '../pages/Client/LoginPage';
 import ProfilePage from '../pages/Client/ProfilePage';

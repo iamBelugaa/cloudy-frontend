@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import NavBar from '../../components/shared/NavBar';
+import NavBar from '../../components/Shared/NavBar';
 import HamburgContext from '../../contexts/HamburgerContext';
 import useFile from '../../hooks/useFile';
 import {

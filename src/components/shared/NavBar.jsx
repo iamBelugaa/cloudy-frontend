@@ -1,7 +1,7 @@
 import React from 'react';
 import { MediaQueries, NavLinks } from '../../constants';
 import styled from 'styled-components';
-import MenuButton from '../buttons/MenuButton';
+import MenuButton from '../Buttons/MenuButton';
 import LogoIcon from '../../assets/logo.svg';
 import { Link } from 'react-router-dom';
 import HamburgerIocn from '../../assets/icons/hamburger.svg';

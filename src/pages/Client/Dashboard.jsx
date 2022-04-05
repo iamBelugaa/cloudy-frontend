@@ -5,7 +5,7 @@ import DashboardIndex from '../../components/Dashboard/DashboardIndex';
 import RecentFiles from '../../components/Dashboard/FilesIndex';
 import ShowError from '../../components/Errors/ShowError';
 import Loading from '../../components/Loading/TextLoading';
-import Pagination from '../../components/shared/Pagination';
+import Pagination from '../../components/Shared/Pagination';
 import { COLORS } from '../../components/styles/ColorStyles';
 import { SmallText } from '../../components/styles/TextStyles';
 import { useFiles } from '../../hooks/useFiles';

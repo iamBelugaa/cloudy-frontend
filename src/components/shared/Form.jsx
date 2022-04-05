@@ -1,7 +1,7 @@
 import React from 'react';
 import Lock from '../../assets/icons/lock.svg';
 import Mail from '../../assets/icons/mail.svg';
-import CtaButton from '../buttons/CtaButton';
+import CtaButton from '../Buttons/CtaButton';
 import styled from 'styled-components';
 import { COLORS } from '../styles/ColorStyles';
 import { FORM_ACTIONS } from '../../hooks/useForm';

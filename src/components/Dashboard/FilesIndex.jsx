@@ -53,7 +53,7 @@ const FilesIndex = ({ files, setFiles, isAdmin = false }) => {
           <Info style={{ marginTop: '150px' }}>
             <Title>No files found.</Title>
             <Description>
-              Cloudy has you covered allowing for all file types to be shared.
+              Cloudy has you covered allowing for all file types to be Shared.
               Cloudy store all your important files in one secure location.
               Wherever you need, share and collaborate with friends, family and
               Co-Workers.

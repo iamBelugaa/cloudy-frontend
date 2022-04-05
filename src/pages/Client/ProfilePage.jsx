@@ -5,7 +5,7 @@ import Account from '../../assets/icons/account.svg';
 import Lock from '../../assets/icons/lock.svg';
 import Mail from '../../assets/icons/mail.svg';
 import errorTrash from '../../assets/illustrations/error-trash.svg';
-import CtaButton from '../../components/buttons/CtaButton';
+import CtaButton from '../../components/Buttons/CtaButton';
 import DashboardIndex from '../../components/Dashboard/DashboardIndex';
 import ShowError from '../../components/Errors/ShowError';
 import Loading from '../../components/Loading/TextLoading';

@@ -8,7 +8,7 @@ import Blob2 from '../../assets/paths/blob_2.svg';
 import { DashboardLinks } from '../../constants';
 import HamburgerContext from '../../contexts/HamburgerContext';
 import { getTokenFromLocalstorage, toastify, userEndpoints } from '../../utils';
-import MenuButton from '../buttons/MenuButton';
+import MenuButton from '../Buttons/MenuButton';
 import Storage from '../Dashboard/Storage';
 import { COLORS } from '../styles/ColorStyles';
 import { H2, MediumText } from '../styles/TextStyles';

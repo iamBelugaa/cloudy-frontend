@@ -5,8 +5,8 @@ import Blob2 from '../../assets/paths/blob_2.svg';
 import { COLORS } from '../styles/ColorStyles';
 import { H1, MediumText } from '../styles/TextStyles';
 import illustration from '../../assets/illustrations/computer-work.svg';
-import GetStartedButton from '../buttons/GetStartedButton';
-import NavBar from '../shared/NavBar';
+import GetStartedButton from '../Buttons/GetStartedButton';
+import NavBar from '../Shared/NavBar';
 import { MediaQueries } from '../../constants';
 import stars from '../../assets/illustrations/stars.svg';
 

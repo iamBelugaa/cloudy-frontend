@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import styled from 'styled-components';
-import Card from '../../components/shared/Card';
-import NavBar from '../../components/shared/NavBar';
+import Card from '../../components/Shared/Card';
+import NavBar from '../../components/Shared/NavBar';
 import { COLORS } from '../../components/styles/ColorStyles';
 import { SmallText } from '../../components/styles/TextStyles';
 import HamburgerContext from '../../contexts/HamburgerContext';
@@ -18,7 +18,7 @@ const data = {
   placeholder: 'Display name',
 };
 
-const AdminLoginPage = () => {
+const LoginPage = () => {
   const { state, dispatch } = useForm();
   const [, setToken] = useLocalStorage('uAccessToken');
   const [, setUser] = useLocalStorage('admin');
@@ -127,4 +127,4 @@ const CaptionText = styled(SmallText)`
   padding-right: 5px;
 `;
 
-export default AdminLoginPage;
+export default LoginPage;

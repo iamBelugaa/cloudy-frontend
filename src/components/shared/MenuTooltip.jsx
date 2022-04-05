@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLinks } from '../../constants';
-import MenuButton from '../buttons/MenuButton';
+import MenuButton from '../Buttons/MenuButton';
 import styled from 'styled-components';
 
 const MenuTooltip = ({ isOpen }) => {

@@ -4,7 +4,7 @@ import Computerwork from '../../assets/illustrations/computer-work.svg';
 import { COLORS } from '../styles/ColorStyles';
 import { Caption, H2 } from '../styles/TextStyles';
 import { MediaQueries } from '../../constants';
-import Form from '../shared/Form';
+import Form from '../Shared/Form';
 
 const Card = ({
   title,
