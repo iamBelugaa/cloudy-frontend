@@ -14,8 +14,6 @@ export function useFiles(filter, token, admin = false) {
           ? `${config.adminApiEndpoint}${endpoint}`
           : `${config.userApiEndpoint}${endpoint}`;
 
-        console.log(url);
-
         const files = await fetchData(url, token);
         if (files) setFiles(files);
       } catch (error) {

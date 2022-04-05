@@ -37,15 +37,13 @@ export async function postData(url, token, body = {}, method) {
       method,
       headers: {
         'x-authorization': `Bearer ${token}`,
-        'Content-Type': method !== 'DELETE' ? 'application/json' : '',
+        'Content-Type': method !== 'DELETE' && body ? 'application/json' : '',
       },
       body: JSON.stringify(body),
     });
 
     if (!response.ok && !response.status === 400)
       throw new Error(response.statusText);
-
-    console.log(url);
 
     const data = await response.json();
 
