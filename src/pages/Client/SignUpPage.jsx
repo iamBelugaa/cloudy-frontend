@@ -27,7 +27,7 @@ const SignUpPage = () => {
     email: '',
     password: '',
   });
-  const [, setToken] = useLocalStorage('uAccessToken');
+  const [, setToken] = useLocalStorage('sidToken');
   const [toDashboard, setToDashboard] = useState(false);
 
   useEffect(() => (document.title = 'Sing Up to Cloudy'), []);

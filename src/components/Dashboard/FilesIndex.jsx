@@ -20,12 +20,7 @@ const FilesIndex = ({ files, setFiles, isAdmin = false }) => {
     setFiles((files) => files.filter((f) => f.uuid !== uuid));
     const url = isAdmin ? adminEndpoints.deleteFile : userEndpoints.deleteFile;
 
-    deleteFile(
-      url,
-      getTokenFromLocalstorage('uAccessToken'),
-      { uuid },
-      'DELETE'
-    )
+    deleteFile(url, getTokenFromLocalstorage('sidToken'), { uuid }, 'DELETE')
       .then(() => toastify('File deleted.'))
       .catch((error) => {
         toastify(error.message);
