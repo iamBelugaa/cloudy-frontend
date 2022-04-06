@@ -37,7 +37,7 @@ function App() {
 }
 
 const ProtectedRoute = (props) => {
-  const token = JSON.parse(localStorage.getItem('sidToken'));
+  const token = JSON.parse(localStorage.getItem('userSID'));
   const { path } = props;
   const { state } = useLocation();
 

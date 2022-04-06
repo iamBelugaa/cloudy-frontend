@@ -16,7 +16,7 @@ import stars from '../../assets/illustrations/stars.svg';
 import { useUser } from '../../hooks/useUser';
 
 const DashboardIndex = ({ children }) => {
-  const token = getTokenFromLocalstorage('sidToken');
+  const token = getTokenFromLocalstorage();
   const [user, error] = useUser(userEndpoints.dashboard, token);
   const history = useHistory();
   const timeRef = useRef();
@@ -31,7 +31,7 @@ const DashboardIndex = ({ children }) => {
 
   useEffect(() => {
     if (error) {
-      localStorage.removeItem('sidToken');
+      localStorage.removeItem('userSID');
       return history.push('/login');
     }
 
@@ -59,7 +59,7 @@ const DashboardIndex = ({ children }) => {
               <DisplayName>{user && user.displayName} • </DisplayName>
               <LogoutButton
                 onClick={() => {
-                  window.localStorage.removeItem('sidToken');
+                  window.localStorage.removeItem('userSID');
                   toastify('Logged out.');
                   timeRef.current = setTimeout(
                     () => history.push('/login'),

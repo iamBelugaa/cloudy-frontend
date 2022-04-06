@@ -40,7 +40,7 @@ const ProfilePage = () => {
   });
   const timeRef = useRef();
   const history = useHistory();
-  const token = getTokenFromLocalstorage('sidToken');
+  const token = getTokenFromLocalstorage();
 
   useEffect(
     () =>
@@ -70,7 +70,7 @@ const ProfilePage = () => {
       email: personalInfo.email,
     })
       .then((accessToken) => {
-        setTokenInLocalStorage('sidToken', accessToken);
+        setTokenInLocalStorage('userSID', accessToken);
         toastify('Information updated.');
       })
       .catch(({ message }) => toastify(message, 'error'));
@@ -87,7 +87,7 @@ const ProfilePage = () => {
       newPassword: passwords.newPassword,
     })
       .then((accessToken) => {
-        setTokenInLocalStorage('sidToken', accessToken);
+        setTokenInLocalStorage('userSID', accessToken);
         toastify('Password updated.');
       })
       .catch(({ message }) => toastify(message, 'error'));
@@ -97,7 +97,7 @@ const ProfilePage = () => {
     deleteAccount(userEndpoints.deleteAccount, token)
       .then(() => {
         toastify('Accout deleted.');
-        localStorage.removeItem('sidToken');
+        localStorage.removeItem('userSID');
         timeRef.current = setTimeout(() => history.push('/login'), 1800);
       })
       .catch(({ message }) => toastify(message, 'error'));

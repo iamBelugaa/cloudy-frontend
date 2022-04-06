@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { getProfile } from '../services/profileService';
 
 export function useProfile(url) {
-  const token = getTokenFromLocalstorage('sidToken');
+  const token = getTokenFromLocalstorage('userSID');
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
 

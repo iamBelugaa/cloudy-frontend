@@ -23,7 +23,7 @@ const LoginPage = () => {
     email: '',
     password: '',
   });
-  const [, setToken] = useLocalStorage('sidToken');
+  const [, setToken] = useLocalStorage('userSID');
   const [toDashboard, setToDashboard] = useState(false);
 
   useEffect(() => (document.title = 'Login to Cloudy'), []);

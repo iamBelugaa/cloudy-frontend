@@ -42,7 +42,7 @@ export const setTokenInLocalStorage = (key, token) =>
   localStorage.setItem(key, JSON.stringify(token));
 
 export const getTokenFromLocalstorage = () =>
-  JSON.parse(localStorage.getItem('sidToken') || '');
+  JSON.parse(localStorage.getItem('userSID') || '');
 
 export const paginate = (items, pageSize, pageNumber) => {
   const startIndex = (pageNumber - 1) * pageSize;
