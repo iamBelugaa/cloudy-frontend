@@ -26,7 +26,7 @@ export const changePassword = (url, token, body) => {
 
 export const deleteAccount = (url, token) => {
   try {
-    return fetchData(url, token, '', 'DELETE');
+    return postData(url, token, '', 'DELETE');
   } catch (error) {
     throw error;
   }

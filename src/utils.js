@@ -68,19 +68,3 @@ export const userEndpoints = {
   others: `${config.userApiEndpoint}/others`,
   deleteFile: `${config.userApiEndpoint}/delete-file`,
 };
-
-export const adminEndpoints = {
-  login: `${config.adminApiEndpoint}/login`,
-  dashboard: `${config.adminApiEndpoint}/dashboard`,
-  profile: `${config.adminApiEndpoint}/profile`,
-  changeInfo: `${config.adminApiEndpoint}/change-info`,
-  deleteAccount: `${config.adminApiEndpoint}/delete-account`,
-  changePassword: `${config.adminApiEndpoint}/change-password`,
-  recentFiles: `${config.adminApiEndpoint}/recent-files`,
-  allFiles: `${config.adminApiEndpoint}/files`,
-  images: `${config.adminApiEndpoint}/images`,
-  videos: `${config.adminApiEndpoint}/videos`,
-  music: `${config.adminApiEndpoint}/music`,
-  others: `${config.adminApiEndpoint}/others`,
-  deleteFile: `${config.adminApiEndpoint}/delete-file`,
-};

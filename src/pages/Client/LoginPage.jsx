@@ -45,7 +45,7 @@ const LoginPage = () => {
       .catch((e) => toastify(e.message, 'error'));
   };
 
-  if (toDashboard) return <Redirect to="/dashboard" />;
+  if (toDashboard) return <Redirect to='/dashboard' />;
 
   return (
     <HamburgerContext>
@@ -56,12 +56,6 @@ const LoginPage = () => {
             <CaptionText>Don't have an account?</CaptionText>
             <Link to={'/register'}>
               <span style={{ color: `${COLORS.secondary1}` }}>Sign Up</span>
-            </Link>
-          </div>
-          <div style={{ marginTop: '20px' }}>
-            <CaptionText>Admin? Login here </CaptionText>
-            <Link to={'/admin/login'}>
-              <span style={{ color: `${COLORS.secondary1}` }}>Sign In</span>
             </Link>
           </div>
         </Card>

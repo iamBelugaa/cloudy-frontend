@@ -49,7 +49,7 @@ const SignUpPage = () => {
       .catch((e) => toastify(e.message, 'error'));
   };
 
-  if (toDashboard) return <Redirect to="/dashboard" />;
+  if (toDashboard) return <Redirect to='/dashboard' />;
 
   return (
     <HamburgerContext>

@@ -9,8 +9,8 @@ import { COLORS } from '../styles/ColorStyles';
 
 const FeaturesSection = () => {
   return (
-    <BenifitsWrapper id="features">
-      <Path src={Path1} alt="Wave background" />
+    <BenifitsWrapper id='features'>
+      <Path src={Path1} alt='Wave background' />
       <Wrapper>
         <ContentWrapper>
           <TextWrapper>
@@ -22,7 +22,7 @@ const FeaturesSection = () => {
               your files.
             </Description>
           </TextWrapper>
-          <Separator src={SeparatorImg} alt="Content separator image" />
+          <Separator src={SeparatorImg} alt='Content separator image' />
           <FeaturesWrapper>
             {Features.map((feature, index) => (
               <FeatureBox feature={feature} key={index} />

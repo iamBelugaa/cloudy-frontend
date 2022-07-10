@@ -42,8 +42,8 @@ const DashboardIndex = ({ children }) => {
   return (
     <HamburgerContext>
       <Wrapper>
-        <Blob src={Blob1} alt="Blob 1" />
-        <Blob src={Blob2} alt="Blob 2" />
+        <Blob src={Blob1} alt='Blob 1' />
+        <Blob src={Blob2} alt='Blob 2' />
 
         <DashboardWrapper>
           <SideBar count={DashboardLinks.length}>
@@ -67,7 +67,7 @@ const DashboardIndex = ({ children }) => {
                   );
                 }}
               >
-                <img src={logoutIcon} alt="Logout icon" />
+                <img src={logoutIcon} alt='Logout icon' />
               </LogoutButton>
             </UserInfo>
           </SideBar>

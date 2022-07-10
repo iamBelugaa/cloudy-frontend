@@ -13,8 +13,8 @@ import stars from '../../assets/illustrations/stars.svg';
 const HeroSection = () => {
   return (
     <Wrapper>
-      <Blob src={Blob1} alt="Blob 1" />
-      <Blob src={Blob2} alt="Blob 2" />
+      <Blob src={Blob1} alt='Blob 1' />
+      <Blob src={Blob2} alt='Blob 2' />
       <NavBar />
       <HeaderWrapper>
         <ContentWrapper>
@@ -32,7 +32,7 @@ const HeroSection = () => {
           </TextWrapper>
           <Illustration
             src={illustration}
-            alt="Person using computer Illustration"
+            alt='Person using computer Illustration'
           />
         </ContentWrapper>
       </HeaderWrapper>

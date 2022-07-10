@@ -3,22 +3,17 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FileAttributes } from '../../constants';
 import { postData as deleteFile } from '../../services/httpService';
-import {
-  adminEndpoints,
-  getTokenFromLocalstorage,
-  toastify,
-  userEndpoints,
-} from '../../utils';
+import { getTokenFromLocalstorage, toastify, userEndpoints } from '../../utils';
 import { COLORS } from '../styles/ColorStyles';
 import { Caption, SmallText } from '../styles/TextStyles';
 import File from './File';
 
-const FilesIndex = ({ files, setFiles, isAdmin = false }) => {
+const FilesIndex = ({ files, setFiles }) => {
   const originalFiles = files;
 
   const handleDelete = (uuid) => {
     setFiles((files) => files.filter((f) => f.uuid !== uuid));
-    const url = isAdmin ? adminEndpoints.deleteFile : userEndpoints.deleteFile;
+    const url = userEndpoints.deleteFile;
 
     deleteFile(url, getTokenFromLocalstorage(), { uuid }, 'DELETE')
       .then(() => toastify('File deleted.'))
@@ -32,7 +27,7 @@ const FilesIndex = ({ files, setFiles, isAdmin = false }) => {
     <Wrapper>
       <TextWrapper>
         <Title>Recent Files</Title>
-        <Link to="/files">
+        <Link to='/files'>
           <ViewAll>View All</ViewAll>
         </Link>
       </TextWrapper>

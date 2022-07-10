@@ -68,7 +68,7 @@ const Storage = ({ filesCount, storageInfo }) => {
           </SmallText>
         </div>
         <Button onClick={handleClearStorage}>
-          <Icon src={trashIcon} alt="Trash icon" />
+          <Icon src={trashIcon} alt='Trash icon' />
           <MediumText>Clear Storage</MediumText>
         </Button>
       </DangerZone>

@@ -8,7 +8,7 @@ export const useUser = (url, token) => {
   useEffect(() => {
     getUserData(url, token)
       .then((data) => {
-        if (!data) return;
+        if (!data) throw new Error('Login to see this page.');
         setUser(data);
       })
       .catch((error) => setError(error.message));
